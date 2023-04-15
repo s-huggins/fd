@@ -4,13 +4,13 @@
   "version": "1.0.0",
   "manifest_version": 3,
   "icons": {
-    "16": "frontdoor.png",
-    "48": "frontdoor.png",
-    "128": "frontdoor.png"
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
   },
   "permissions": [],
   "action": {
-    "default_popup": "index.html",
+    "default_popup": "popup.html",
     "default_title": "Frontdoor",
     "default_icon": "icon.png"
   },
