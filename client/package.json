@@ -26,5 +26,6 @@
     "webpack": "^5.35.1",
     "webpack-cli": "^4.6.0",
     "webpack-merge": "^5.7.3"
-  }
+  },
+  "proxy": "http://localhost:3000"
 }
