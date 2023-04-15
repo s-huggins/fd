@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LibraryModule } from './library/library.module';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { LibraryModule } from './library/library.module';
       autoSchemaFile: true
     }),
     MongooseModule.forRoot(process.env.MONGODB_URL),
-    LibraryModule
+    LibraryModule,
+    CommonModule
   ],
   controllers: [AppController],
   providers: [AppService]
