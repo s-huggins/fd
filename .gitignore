@@ -1,2 +1,9 @@
+# dependencies
 node_modules/
+
+# prod
+build/
+dist/
+
+# misc
 .DS_Store

@@ -1,0 +1,27 @@
+{
+  "name": "Frontdoor",
+  "description": "A personal librarian for the internet",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "icons": {
+    "16": "frontdoor.png",
+    "48": "frontdoor.png",
+    "128": "frontdoor.png"
+  },
+  "permissions": [],
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Frontdoor",
+    "default_icon": "icon.png"
+  },
+  "options_page": "options.html",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["contentScript.js"]
+    }
+  ]
+}
