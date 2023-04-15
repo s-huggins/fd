@@ -1,7 +1,9 @@
+import { ApolloProvider } from '@apollo/client';
 import React, { useContext } from 'react';
 import ReactDOM from 'react-dom/client';
 import { Switch } from '../components/common/switch';
 import { AppContext, AppContextProvider } from '../context/app-context';
+import client from '../graphql/apollo';
 
 const App: React.FC<{}> = () => {
   const context = useContext(AppContext);
@@ -20,6 +22,8 @@ document.body.appendChild(rootElement);
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <AppContextProvider>
-    <App />
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
   </AppContextProvider>
 );
