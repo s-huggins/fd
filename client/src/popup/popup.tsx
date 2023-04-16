@@ -7,11 +7,12 @@ import client from '../graphql/apollo';
 
 const App: React.FC<{}> = () => {
   const context = useContext(AppContext);
-
   return (
     <>
       <h1>Frontdoor</h1>
-      <Switch label="Enabled" checked={context.enabled} onToggle={context.setEnabled} />
+      {context.hydrated && (
+        <Switch label="Enabled" checked={context.extensionActive} onToggle={context.setExtensionActive} />
+      )}
     </>
   );
 };

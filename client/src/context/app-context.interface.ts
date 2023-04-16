@@ -3,7 +3,8 @@ import { ISummary } from './summary.interface';
 
 export interface IAppContext {
   theme: AppThemeEnum;
-  enabled: boolean;
-  setEnabled: (enabled: boolean) => void;
+  extensionActive: boolean;
+  setExtensionActive: (enabled: boolean) => void;
   summaries: ISummary[];
+  hydrated: boolean;
 }
