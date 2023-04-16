@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CommonModule } from './common/common.module';
 import { LibraryModule } from './library/library.module';
+import { OpenAIModule } from './openai/openai.module';
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { LibraryModule } from './library/library.module';
     }),
     MongooseModule.forRoot(process.env.MONGODB_URL),
     LibraryModule,
-    CommonModule
+    CommonModule,
+    OpenAIModule
   ],
   controllers: [AppController],
   providers: [AppService]
