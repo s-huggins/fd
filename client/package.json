@@ -4,13 +4,19 @@
   "description": "Frontdoor client",
   "scripts": {
     "start": "webpack --watch --progress --config webpack.dev.js",
-    "build": "webpack --watch --progress --config webpack.prod.js"
+    "build": "webpack --watch --progress --config webpack.prod.js",
+    "generate": "graphql-codegen",
+    "prestart": "npm run generate",
+    "predev": "npm run generate"
   },
   "author": "",
   "devDependencies": {
+    "@graphql-codegen/cli": "^3.3.0",
+    "@graphql-codegen/client-preset": "^3.0.0",
     "@types/chrome": "^0.0.134",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^18.0.11",
+    "apollo": "^2.34.0",
     "autoprefixer": "^10.4.14",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^7.0.0",

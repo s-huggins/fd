@@ -1,12 +1,22 @@
-import { ApolloProvider } from '@apollo/client';
+import { ApolloProvider, gql } from '@apollo/client';
 import React, { useContext } from 'react';
 import ReactDOM from 'react-dom/client';
 import { Switch } from '../components/common/switch';
 import { AppContext, AppContextProvider } from '../context/app-context';
 import client from '../graphql/apollo';
 
+const SummariesQuery = gql`
+  query getSummaries($queryInput: SummaryQueryInput!) {
+    getSummaries(input: $queryInput) {
+      detail
+      tags
+    }
+  }
+`;
+
 const App: React.FC<{}> = () => {
   const context = useContext(AppContext);
+
   return (
     <>
       <h1>Frontdoor</h1>
