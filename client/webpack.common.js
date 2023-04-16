@@ -2,6 +2,8 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const tailwindcss = require('tailwindcss');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -19,7 +21,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: ['style-loader', 'css-loader', 'postcss-loader']
       },
       {
         test: /\.(jpg|jpeg|png|woff|woff2|eot|ttf|svg)$/,
@@ -49,6 +51,8 @@ module.exports = {
     path: path.resolve('dist')
   },
   optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin()],
     splitChunks: {
       chunks(chunk) {
         return chunk.name !== 'contentScript';
