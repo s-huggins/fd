@@ -19,7 +19,7 @@ services:
       - /app/node_modules
       - ./server:/app
     ports:
-      - ${APP_PORT}:${APP_PORT}
+      - ${SERVER_PORT}:${SERVER_PORT}
     command: npm run start:dev
     depends_on:
       - mongodb
