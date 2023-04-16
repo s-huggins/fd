@@ -14,6 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n  fragment PaginationFragment on PaginationFields {\n    page\n    itemsPerPage\n    totalPages\n  }\n": types.PaginationFragmentFragmentDoc,
+    "\n  query RequestSummary($requestSummaryInput: RequestSummaryInput!) {\n    requestSummary(input: $requestSummaryInput) {\n      content\n      tags\n      createdAt\n    }\n  }\n": types.RequestSummaryDocument,
     "\n  query getSummaries($queryInput: SummaryQueryInput!) {\n    summaries: getSummaries(input: $queryInput) {\n      pagination {\n        ...PaginationFragment\n      }\n      data {\n        id\n        detail\n        tags\n        createdAt\n      }\n    }\n  }\n  \n": types.GetSummariesDocument,
 };
 
@@ -35,6 +36,10 @@ export function graphql(source: string): unknown;
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  fragment PaginationFragment on PaginationFields {\n    page\n    itemsPerPage\n    totalPages\n  }\n"): (typeof documents)["\n  fragment PaginationFragment on PaginationFields {\n    page\n    itemsPerPage\n    totalPages\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query RequestSummary($requestSummaryInput: RequestSummaryInput!) {\n    requestSummary(input: $requestSummaryInput) {\n      content\n      tags\n      createdAt\n    }\n  }\n"): (typeof documents)["\n  query RequestSummary($requestSummaryInput: RequestSummaryInput!) {\n    requestSummary(input: $requestSummaryInput) {\n      content\n      tags\n      createdAt\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

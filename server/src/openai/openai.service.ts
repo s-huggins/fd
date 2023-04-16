@@ -7,7 +7,7 @@ import {
   OpenAIApi
 } from 'openai';
 import { OpenAISummary } from './dtos/openai-summary.dto';
-import { SummaryRequestInput } from './dtos/summary-request.dto';
+import { RequestSummaryInput } from './dtos/request-summary.dto';
 import { ISummaryResponse } from './interfaces/openai-summary-response.interface';
 
 @Injectable()
@@ -23,7 +23,7 @@ export class OpenAIService {
     this._api = new OpenAIApi(configuration);
   }
 
-  public async getSummary(summaryRequest: SummaryRequestInput): Promise<OpenAISummary> {
+  public async getSummary(summaryRequest: RequestSummaryInput): Promise<OpenAISummary> {
     try {
       const chatRequest: CreateChatCompletionRequest = {
         model: 'gpt-3.5-turbo',

@@ -73,7 +73,11 @@ export type QueryGetSummariesArgs = {
 
 
 export type QueryRequestSummaryArgs = {
-  input: SummaryRequestInput;
+  input: RequestSummaryInput;
+};
+
+export type RequestSummaryInput = {
+  text: Scalars['String'];
 };
 
 export type SummaryDto = {
@@ -98,11 +102,14 @@ export type SummaryQueryOutput = {
   pagination: PaginationFields;
 };
 
-export type SummaryRequestInput = {
-  text: Scalars['String'];
-};
-
 export type PaginationFragmentFragment = { __typename?: 'PaginationFields', page: number, itemsPerPage: number, totalPages: number } & { ' $fragmentName'?: 'PaginationFragmentFragment' };
+
+export type RequestSummaryQueryVariables = Exact<{
+  requestSummaryInput: RequestSummaryInput;
+}>;
+
+
+export type RequestSummaryQuery = { __typename?: 'Query', requestSummary: { __typename?: 'OpenAISummary', content: string, tags: Array<string>, createdAt: any } };
 
 export type GetSummariesQueryVariables = Exact<{
   queryInput: SummaryQueryInput;
@@ -115,4 +122,5 @@ export type GetSummariesQuery = { __typename?: 'Query', summaries: { __typename?
     ), data: Array<{ __typename?: 'SummaryDto', id: string, detail: string, tags: Array<string>, createdAt: any }> } };
 
 export const PaginationFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PaginationFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PaginationFields"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"itemsPerPage"}},{"kind":"Field","name":{"kind":"Name","value":"totalPages"}}]}}]} as unknown as DocumentNode<PaginationFragmentFragment, unknown>;
+export const RequestSummaryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"RequestSummary"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"requestSummaryInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"RequestSummaryInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"requestSummary"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"requestSummaryInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"tags"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]} as unknown as DocumentNode<RequestSummaryQuery, RequestSummaryQueryVariables>;
 export const GetSummariesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getSummaries"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"queryInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"SummaryQueryInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"summaries"},"name":{"kind":"Name","value":"getSummaries"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"queryInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pagination"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PaginationFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"detail"}},{"kind":"Field","name":{"kind":"Name","value":"tags"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PaginationFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PaginationFields"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"itemsPerPage"}},{"kind":"Field","name":{"kind":"Name","value":"totalPages"}}]}}]} as unknown as DocumentNode<GetSummariesQuery, GetSummariesQueryVariables>;

@@ -7,5 +7,9 @@ export class TooltipRequestMessage extends Message {
     return message.id === MESSAGE_ID;
   }
 
+  constructor(public readonly selectionText: string) {
+    super();
+  }
+
   public readonly id = MESSAGE_ID;
 }

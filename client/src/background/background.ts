@@ -13,10 +13,8 @@ chrome.runtime.onInstalled.addListener(async details => {
 });
 
 chrome.contextMenus.onClicked.addListener(async event => {
-  console.log(event);
   const [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  if (activeTab) {
-    console.log(activeTab);
-    chrome.tabs.sendMessage(activeTab.id, new TooltipRequestMessage());
+  if (activeTab && event.selectionText) {
+    chrome.tabs.sendMessage(activeTab.id, new TooltipRequestMessage(event.selectionText));
   }
 });

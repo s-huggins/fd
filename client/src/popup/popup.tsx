@@ -42,7 +42,6 @@ const App: React.FC<{}> = () => {
   } else if (loading) {
     libraryPageContent = <p>Loading...</p>;
   } else if (data) {
-    console.log(data);
     libraryPageContent = data.summaries.data.map(summary => {
       return (
         <div key={summary.id}>
