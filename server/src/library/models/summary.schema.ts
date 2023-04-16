@@ -6,7 +6,7 @@ export const SummarySchema = new mongoose.Schema(
     tags: [String],
     highlightedText: String
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { virtuals: true } }
 );
 
 export const SUMMARY = 'Summary';

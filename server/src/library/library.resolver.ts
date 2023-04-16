@@ -1,17 +1,16 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CreateSummaryInput, CreateSummaryOutput } from './dtos/create-summary.dto';
-import { SummaryQueryInput } from './dtos/summary-query.dto';
-import { SummaryDto } from './dtos/summary.dto';
+import { SummaryQueryInput } from './dtos/summary-query-input.dto';
+import { SummaryQueryOutput } from './dtos/summary-query-output.dto';
 import { LibraryService } from './library.service';
-import { Summary } from './models/summary.interface';
 
 @Resolver()
 export class LibraryResolver {
   constructor(private readonly _libraryService: LibraryService) {}
 
-  @Query(() => [SummaryDto])
-  public getSummaries(@Args('input') summariesQuery: SummaryQueryInput): Promise<Summary[]> {
-    return this._libraryService.getAllSummaries(summariesQuery);
+  @Query(() => SummaryQueryOutput)
+  public getSummaries(@Args('input') summariesQuery: SummaryQueryInput): Promise<SummaryQueryOutput> {
+    return this._libraryService.getSummaries(summariesQuery);
   }
 
   @Mutation(() => CreateSummaryOutput)

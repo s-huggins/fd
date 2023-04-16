@@ -3,7 +3,10 @@ import { Summary } from '../models/summary.interface';
 
 @ObjectType()
 @InputType({ isAbstract: true })
-export class SummaryDto implements Pick<Summary, 'detail' | 'tags' | 'highlightedText' | 'createdAt'> {
+export class SummaryDto implements Pick<Summary, 'detail' | 'tags' | 'highlightedText' | 'createdAt' | 'id'> {
+  @Field(type => String)
+  public readonly id: string;
+
   @Field(type => String)
   public readonly detail: string;
 

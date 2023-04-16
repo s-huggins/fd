@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateSummaryInput } from './dtos/create-summary.dto';
-import { SUMMARY_PAGE_SIZE, SummaryQueryInput } from './dtos/summary-query.dto';
+import { SummaryQueryInput } from './dtos/summary-query-input.dto';
+import { SummaryQueryOutput } from './dtos/summary-query-output.dto';
 import { Summary } from './models/summary.interface';
 import { SUMMARY } from './models/summary.schema';
 @Injectable()
@@ -14,7 +15,7 @@ export class LibraryService {
     return summary.save();
   }
 
-  public async getAllSummaries(summaryQueryInput: SummaryQueryInput): Promise<Summary[]> {
+  public async getSummaries(summaryQueryInput: SummaryQueryInput): Promise<SummaryQueryOutput> {
     let query = this._summaryModel.find();
 
     if (summaryQueryInput.tagFilters.length) {
@@ -27,9 +28,28 @@ export class LibraryService {
       .sort({
         createdAt: summaryQueryInput.createdAtSortOrder
       })
-      .skip((summaryQueryInput.page - 1) * SUMMARY_PAGE_SIZE)
-      .limit(SUMMARY_PAGE_SIZE);
+      .skip((summaryQueryInput.page - 1) * summaryQueryInput.itemsPerPage)
+      .limit(summaryQueryInput.itemsPerPage);
 
-    return query.exec();
+    const summaries: Summary[] = await query.exec();
+    const totalPageCount: number = await this.getTotalPagesCount(summaryQueryInput.itemsPerPage);
+
+    return {
+      data: summaries,
+      pagination: {
+        page: summaryQueryInput.page,
+        itemsPerPage: summaryQueryInput.itemsPerPage,
+        totalPages: totalPageCount
+      }
+    };
+  }
+
+  private async getTotalPagesCount(itemsPerPage: number): Promise<number> {
+    const totalCount: number = await this.getTotalSummariesCount();
+    return Math.ceil(totalCount / itemsPerPage);
+  }
+
+  private getTotalSummariesCount(): Promise<number> {
+    return this._summaryModel.count();
   }
 }
