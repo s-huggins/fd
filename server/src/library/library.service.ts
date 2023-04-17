@@ -16,6 +16,11 @@ export class LibraryService {
     return summary.save();
   }
 
+  public async createSummaries(summaryInputs: SaveSummaryInput[]): Promise<Summary[]> {
+    const documents: Summary[] = summaryInputs.map((summary: SaveSummaryInput) => new this._summaryModel(summary));
+    return this._summaryModel.insertMany(documents);
+  }
+
   public async getSummaries(summaryQueryInput: SummaryQueryInput): Promise<SummaryQueryOutput> {
     let query = this._summaryModel.find();
 
