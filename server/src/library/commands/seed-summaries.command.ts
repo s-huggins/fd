@@ -5,10 +5,10 @@ import { LibraryService } from '../library.service';
 
 @Command({
   name: 'summaries:seed',
-  arguments: '',
-  description: '',
-  argsDescription: {},
-  options: {}
+  description: 'Seeds the database with a desired number of random summaries',
+  argsDescription: {
+    ['--count (-c)']: 'The number of summaries to seed'
+  }
 })
 export class SeedSummariesCommand extends CommandRunner {
   constructor(private readonly _libraryService: LibraryService) {
@@ -22,6 +22,7 @@ export class SeedSummariesCommand extends CommandRunner {
       console.log('Seeding database...');
       const summaries: SaveSummaryInput[] = Array.from({ length: options.count }, this.makeRandomSummary.bind(this));
       await this._libraryService.createSummaries(summaries);
+      console.log('Done');
     }
   }
 
