@@ -1,5 +1,5 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { CreateSummaryInput, CreateSummaryOutput } from './dtos/create-summary.dto';
+import { SaveSummaryInput, SaveSummaryOutput } from './dtos/save-summary.dto';
 import { SummaryQueryInput } from './dtos/summary-query-input.dto';
 import { SummaryQueryOutput } from './dtos/summary-query-output.dto';
 import { LibraryService } from './library.service';
@@ -13,8 +13,14 @@ export class LibraryResolver {
     return this._libraryService.getSummaries(summariesQuery);
   }
 
-  @Mutation(() => CreateSummaryOutput)
-  public async createSummary(@Args('input') createSummaryInput: CreateSummaryInput): Promise<CreateSummaryOutput> {
-    return this._libraryService.createSummary(createSummaryInput);
+  @Mutation(() => SaveSummaryOutput)
+  public async saveSummary(@Args('input') saveSummaryInput: SaveSummaryInput): Promise<SaveSummaryOutput> {
+    return this._libraryService.createSummary(saveSummaryInput);
+  }
+
+  @Mutation(() => Boolean)
+  public async deleteAll(): Promise<boolean> {
+    await this._libraryService.deleteAll();
+    return true;
   }
 }

@@ -7,15 +7,15 @@ import { AppContext, AppContextProvider } from '../context/app-context';
 import { CreatedAtSortOrder, GetSummariesQuery, GetSummariesQueryVariables } from '../gql/graphql';
 import client from '../graphql/apollo';
 
-const SummariesQuery = gql`
-  query getSummaries($queryInput: SummaryQueryInput!) {
+const GET_SUMMARIES_QUERY = gql`
+  query GetSummaries($queryInput: SummaryQueryInput!) {
     summaries: getSummaries(input: $queryInput) {
       pagination {
         ...PaginationFragment
       }
       data {
         id
-        detail
+        content
         tags
         createdAt
       }
@@ -30,11 +30,14 @@ const App: React.FC<{}> = () => {
   const [tagFilters, setTagFilters] = useState<string[]>([]);
   const [page, setPage] = useState<number>(1);
 
-  const { loading, error, data, refetch } = useQuery<GetSummariesQuery, GetSummariesQueryVariables>(SummariesQuery, {
-    variables: {
-      queryInput: { createdAtSortOrder: sortOrder, tagFilters, page }
+  const { loading, error, data, refetch } = useQuery<GetSummariesQuery, GetSummariesQueryVariables>(
+    GET_SUMMARIES_QUERY,
+    {
+      variables: {
+        queryInput: { createdAtSortOrder: sortOrder, tagFilters, page }
+      }
     }
-  });
+  );
 
   let libraryPageContent: ReactNode = null;
   if (error) {
@@ -46,7 +49,7 @@ const App: React.FC<{}> = () => {
       return (
         <div key={summary.id}>
           <div>
-            <p>{summary.detail}</p>
+            <p>{summary.content}</p>
             <span>{summary.tags.join(', ')}</span>
             <span>{summary.createdAt}</span>
           </div>

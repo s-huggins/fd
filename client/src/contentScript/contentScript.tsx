@@ -1,16 +1,32 @@
-import { ApolloProvider, gql, useLazyQuery } from '@apollo/client';
+import { ApolloProvider, gql, useLazyQuery, useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { TooltipRequestMessage } from '../common/messages/tooltip-request';
-import { RequestSummaryQuery, RequestSummaryQueryVariables } from '../gql/graphql';
+import { Summary } from '../components/summary';
+import {
+  RequestSummaryQuery,
+  RequestSummaryQueryVariables,
+  SaveSummaryMutation,
+  SaveSummaryMutationVariables
+} from '../gql/graphql';
 import client from '../graphql/apollo';
 import { useMessenger } from '../hooks/useMessenger';
 import { Tooltip } from './components/tooltip';
 import './contentScript.css';
 
-const RequestSummaryQuery = gql`
-  query RequestSummary($requestSummaryInput: RequestSummaryInput!) {
-    requestSummary(input: $requestSummaryInput) {
+const REQUEST_SUMMARY_QUERY = gql`
+  query RequestSummary($queryInput: RequestSummaryInput!) {
+    summary: requestSummary(input: $queryInput) {
+      content
+      tags
+    }
+  }
+`;
+
+const SAVE_SUMMARY_MUTATION = gql`
+  mutation SaveSummary($saveSummaryInput: SaveSummaryInput!) {
+    saveSummary(input: $saveSummaryInput) {
+      id
       content
       tags
       createdAt
@@ -19,24 +35,49 @@ const RequestSummaryQuery = gql`
 `;
 
 const App: React.FC<{}> = () => {
-  const [tooltipOpen, setTooltipOpen] = useState(false);
+  const [tooltipOpen, setTooltipOpen] = useState<boolean>(false);
+  const [highlightedText, setHighlightedText] = useState<string>('');
 
-  const [fetchSummary, { loading, error, data }] = useLazyQuery<RequestSummaryQuery, RequestSummaryQueryVariables>(
-    RequestSummaryQuery
-  );
+  const [fetchSummary, { data: fetchedData, loading: fetchLoading, error: fetchError }] = useLazyQuery<
+    RequestSummaryQuery,
+    RequestSummaryQueryVariables
+  >(REQUEST_SUMMARY_QUERY);
+
+  const [saveSummary, { data: savedData, loading: saveLoading, error: saveError }] = useMutation<
+    SaveSummaryMutation,
+    SaveSummaryMutationVariables
+  >(SAVE_SUMMARY_MUTATION, {});
 
   const handleTooltipRequested = (message: TooltipRequestMessage) => {
     setTooltipOpen(true);
-    fetchSummary({ variables: { requestSummaryInput: { text: message.selectionText } } });
+    setHighlightedText(message.selectionText);
+    fetchSummary({ variables: { queryInput: { text: message.selectionText } } });
   };
 
   useMessenger(handleTooltipRequested, TooltipRequestMessage.isTooltipRequestMessage);
 
+  const handleSaveSummary = () => {
+    saveSummary({
+      variables: {
+        saveSummaryInput: {
+          content: fetchedData.summary.content,
+          tags: fetchedData.summary.tags,
+          highlightedText
+        }
+      }
+    });
+  };
+
   return (
     <Tooltip tooltipOpen={tooltipOpen} setTooltipOpen={setTooltipOpen}>
-      {loading && 'Loading'}
-      {error && 'Error'}
-      {data && data.requestSummary.content}
+      {fetchLoading && 'Loading'}
+      {fetchError && 'Error'}
+      {fetchedData && (
+        <>
+          <Summary detail={fetchedData.summary.content} tags={fetchedData.summary.tags} />
+          <button onClick={handleSaveSummary}>Save</button>
+        </>
+      )}
     </Tooltip>
   );
 };

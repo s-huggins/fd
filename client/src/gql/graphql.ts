@@ -16,21 +16,6 @@ export type Scalars = {
   DateTime: any;
 };
 
-export type CreateSummaryInput = {
-  detail: Scalars['String'];
-  highlightedText: Scalars['String'];
-  tags: Array<Scalars['String']>;
-};
-
-export type CreateSummaryOutput = {
-  __typename?: 'CreateSummaryOutput';
-  createdAt: Scalars['DateTime'];
-  detail: Scalars['String'];
-  highlightedText: Scalars['String'];
-  id: Scalars['String'];
-  tags: Array<Scalars['String']>;
-};
-
 export enum CreatedAtSortOrder {
   NewestFirst = 'NewestFirst',
   OldestFirst = 'OldestFirst'
@@ -38,19 +23,12 @@ export enum CreatedAtSortOrder {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createSummary: CreateSummaryOutput;
+  saveSummary: SaveSummaryOutput;
 };
 
 
-export type MutationCreateSummaryArgs = {
-  input: CreateSummaryInput;
-};
-
-export type OpenAiSummary = {
-  __typename?: 'OpenAISummary';
-  content: Scalars['String'];
-  createdAt: Scalars['DateTime'];
-  tags: Array<Scalars['String']>;
+export type MutationSaveSummaryArgs = {
+  input: SaveSummaryInput;
 };
 
 export type PaginationFields = {
@@ -63,7 +41,7 @@ export type PaginationFields = {
 export type Query = {
   __typename?: 'Query';
   getSummaries: SummaryQueryOutput;
-  requestSummary: OpenAiSummary;
+  requestSummary: RequestSummaryOutput;
 };
 
 
@@ -80,10 +58,31 @@ export type RequestSummaryInput = {
   text: Scalars['String'];
 };
 
+export type RequestSummaryOutput = {
+  __typename?: 'RequestSummaryOutput';
+  content: Scalars['String'];
+  tags: Array<Scalars['String']>;
+};
+
+export type SaveSummaryInput = {
+  content: Scalars['String'];
+  highlightedText: Scalars['String'];
+  tags: Array<Scalars['String']>;
+};
+
+export type SaveSummaryOutput = {
+  __typename?: 'SaveSummaryOutput';
+  content: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  highlightedText: Scalars['String'];
+  id: Scalars['String'];
+  tags: Array<Scalars['String']>;
+};
+
 export type SummaryDto = {
   __typename?: 'SummaryDto';
+  content: Scalars['String'];
   createdAt: Scalars['DateTime'];
-  detail: Scalars['String'];
   highlightedText: Scalars['String'];
   id: Scalars['String'];
   tags: Array<Scalars['String']>;
@@ -105,11 +104,18 @@ export type SummaryQueryOutput = {
 export type PaginationFragmentFragment = { __typename?: 'PaginationFields', page: number, itemsPerPage: number, totalPages: number } & { ' $fragmentName'?: 'PaginationFragmentFragment' };
 
 export type RequestSummaryQueryVariables = Exact<{
-  requestSummaryInput: RequestSummaryInput;
+  queryInput: RequestSummaryInput;
 }>;
 
 
-export type RequestSummaryQuery = { __typename?: 'Query', requestSummary: { __typename?: 'OpenAISummary', content: string, tags: Array<string>, createdAt: any } };
+export type RequestSummaryQuery = { __typename?: 'Query', summary: { __typename?: 'RequestSummaryOutput', content: string, tags: Array<string> } };
+
+export type SaveSummaryMutationVariables = Exact<{
+  saveSummaryInput: SaveSummaryInput;
+}>;
+
+
+export type SaveSummaryMutation = { __typename?: 'Mutation', saveSummary: { __typename?: 'SaveSummaryOutput', id: string, content: string, tags: Array<string>, createdAt: any } };
 
 export type GetSummariesQueryVariables = Exact<{
   queryInput: SummaryQueryInput;
@@ -119,8 +125,9 @@ export type GetSummariesQueryVariables = Exact<{
 export type GetSummariesQuery = { __typename?: 'Query', summaries: { __typename?: 'SummaryQueryOutput', pagination: (
       { __typename?: 'PaginationFields' }
       & { ' $fragmentRefs'?: { 'PaginationFragmentFragment': PaginationFragmentFragment } }
-    ), data: Array<{ __typename?: 'SummaryDto', id: string, detail: string, tags: Array<string>, createdAt: any }> } };
+    ), data: Array<{ __typename?: 'SummaryDto', id: string, content: string, tags: Array<string>, createdAt: any }> } };
 
 export const PaginationFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PaginationFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PaginationFields"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"itemsPerPage"}},{"kind":"Field","name":{"kind":"Name","value":"totalPages"}}]}}]} as unknown as DocumentNode<PaginationFragmentFragment, unknown>;
-export const RequestSummaryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"RequestSummary"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"requestSummaryInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"RequestSummaryInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"requestSummary"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"requestSummaryInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"tags"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]} as unknown as DocumentNode<RequestSummaryQuery, RequestSummaryQueryVariables>;
-export const GetSummariesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getSummaries"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"queryInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"SummaryQueryInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"summaries"},"name":{"kind":"Name","value":"getSummaries"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"queryInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pagination"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PaginationFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"detail"}},{"kind":"Field","name":{"kind":"Name","value":"tags"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PaginationFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PaginationFields"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"itemsPerPage"}},{"kind":"Field","name":{"kind":"Name","value":"totalPages"}}]}}]} as unknown as DocumentNode<GetSummariesQuery, GetSummariesQueryVariables>;
+export const RequestSummaryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"RequestSummary"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"queryInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"RequestSummaryInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"summary"},"name":{"kind":"Name","value":"requestSummary"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"queryInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"tags"}}]}}]}}]} as unknown as DocumentNode<RequestSummaryQuery, RequestSummaryQueryVariables>;
+export const SaveSummaryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SaveSummary"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"saveSummaryInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"SaveSummaryInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"saveSummary"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"saveSummaryInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"tags"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]} as unknown as DocumentNode<SaveSummaryMutation, SaveSummaryMutationVariables>;
+export const GetSummariesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetSummaries"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"queryInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"SummaryQueryInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"summaries"},"name":{"kind":"Name","value":"getSummaries"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"queryInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pagination"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PaginationFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"tags"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PaginationFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PaginationFields"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"itemsPerPage"}},{"kind":"Field","name":{"kind":"Name","value":"totalPages"}}]}}]} as unknown as DocumentNode<GetSummariesQuery, GetSummariesQueryVariables>;

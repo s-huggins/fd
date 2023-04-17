@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateSummaryInput } from './dtos/create-summary.dto';
+import { SaveSummaryInput } from './dtos/save-summary.dto';
 import { SummaryQueryInput } from './dtos/summary-query-input.dto';
 import { SummaryQueryOutput } from './dtos/summary-query-output.dto';
 import { Summary } from './models/summary.interface';
@@ -10,7 +10,11 @@ import { SUMMARY } from './models/summary.schema';
 export class LibraryService {
   constructor(@InjectModel(SUMMARY) private readonly _summaryModel: Model<Summary>) {}
 
-  public async createSummary(summaryInput: CreateSummaryInput): Promise<Summary> {
+  public async deleteAll(): Promise<void> {
+    await this._summaryModel.deleteMany();
+  }
+
+  public async createSummary(summaryInput: SaveSummaryInput): Promise<Summary> {
     const summary = new this._summaryModel(summaryInput);
     return summary.save();
   }

@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 
 export const SummarySchema = new mongoose.Schema(
   {
-    detail: String,
+    content: String,
     tags: [String],
     highlightedText: String
   },
