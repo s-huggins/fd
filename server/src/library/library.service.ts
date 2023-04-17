@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
+import { DeleteSummaryInput } from './dtos/delete-summary-input.dto';
 import { SaveSummaryInput } from './dtos/save-summary.dto';
 import { SummaryQueryInput } from './dtos/summary-query-input.dto';
 import { SummaryQueryOutput } from './dtos/summary-query-output.dto';
@@ -9,10 +10,6 @@ import { SUMMARY } from './models/summary.schema';
 @Injectable()
 export class LibraryService {
   constructor(@InjectModel(SUMMARY) private readonly _summaryModel: Model<Summary>) {}
-
-  public async deleteAll(): Promise<void> {
-    await this._summaryModel.deleteMany();
-  }
 
   public async createSummary(summaryInput: SaveSummaryInput): Promise<Summary> {
     const summary = new this._summaryModel(summaryInput);
@@ -46,6 +43,15 @@ export class LibraryService {
         totalPages: totalPageCount
       }
     };
+  }
+
+  public async deleteAll(): Promise<void> {
+    await this._summaryModel.deleteMany();
+  }
+
+  public async deleteSummary(deleteSummaryInput: DeleteSummaryInput): Promise<boolean> {
+    await this._summaryModel.deleteOne({ _id: new Types.ObjectId(deleteSummaryInput.id) });
+    return true;
   }
 
   private async getTotalPagesCount(itemsPerPage: number): Promise<number> {

@@ -1,10 +1,16 @@
-import { ApolloProvider, gql, useQuery } from '@apollo/client';
+import { ApolloProvider, gql, useMutation, useQuery } from '@apollo/client';
 import React, { ReactNode, useContext, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { PaginationFragment } from '../common/graphql/fragments/pagination';
 import { Switch } from '../components/common/switch';
 import { AppContext, AppContextProvider } from '../context/app-context';
-import { CreatedAtSortOrder, GetSummariesQuery, GetSummariesQueryVariables } from '../gql/graphql';
+import {
+  CreatedAtSortOrder,
+  DeleteSummaryMutation,
+  DeleteSummaryMutationVariables,
+  GetSummariesQuery,
+  GetSummariesQueryVariables
+} from '../gql/graphql';
 import client from '../graphql/apollo';
 
 const GET_SUMMARIES_QUERY = gql`
@@ -24,20 +30,38 @@ const GET_SUMMARIES_QUERY = gql`
   ${PaginationFragment}
 `;
 
+const DELETE_SUMMARY_MUTATION = gql`
+  mutation DeleteSummary($deleteSummaryInput: DeleteSummaryInput!) {
+    deleteSummary(input: $deleteSummaryInput)
+  }
+`;
+
 const App: React.FC<{}> = () => {
   const context = useContext(AppContext);
   const [sortOrder, setSortOrder] = useState<CreatedAtSortOrder>(CreatedAtSortOrder.NewestFirst);
   const [tagFilters, setTagFilters] = useState<string[]>([]);
   const [page, setPage] = useState<number>(1);
 
+  const getSearchQueryVariables = (): GetSummariesQueryVariables => {
+    return { queryInput: { createdAtSortOrder: sortOrder, tagFilters, page } };
+  };
+
   const { loading, error, data, refetch } = useQuery<GetSummariesQuery, GetSummariesQueryVariables>(
     GET_SUMMARIES_QUERY,
     {
-      variables: {
-        queryInput: { createdAtSortOrder: sortOrder, tagFilters, page }
-      }
+      variables: getSearchQueryVariables()
     }
   );
+
+  const [deleteSummary, { data: deleteData, loading: deleteLoading, error: deleteError }] = useMutation<
+    DeleteSummaryMutation,
+    DeleteSummaryMutationVariables
+  >(DELETE_SUMMARY_MUTATION, {});
+
+  const handleDeleteSummary = (summaryId: string) => {
+    deleteSummary({ variables: { deleteSummaryInput: { id: summaryId } } });
+    refetch(getSearchQueryVariables());
+  };
 
   let libraryPageContent: ReactNode = null;
   if (error) {
@@ -52,6 +76,9 @@ const App: React.FC<{}> = () => {
             <p>{summary.content}</p>
             <span>{summary.tags.join(', ')}</span>
             <span>{summary.createdAt}</span>
+            <button disabled={deleteLoading} onClick={() => handleDeleteSummary(summary.id)}>
+              Delete
+            </button>
           </div>
         </div>
       );

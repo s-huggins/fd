@@ -75,7 +75,9 @@ const App: React.FC<{}> = () => {
       {fetchedData && (
         <>
           <Summary detail={fetchedData.summary.content} tags={fetchedData.summary.tags} />
-          <button onClick={handleSaveSummary}>Save</button>
+          <button disabled={saveLoading} onClick={handleSaveSummary}>
+            Save
+          </button>
         </>
       )}
     </Tooltip>
