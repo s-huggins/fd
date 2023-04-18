@@ -1,10 +1,10 @@
 {
-  "name": "server",
+  "name": "frontdoor-server",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Frontdoor server",
+  "author": "Stuart Huggins",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

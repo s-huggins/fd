@@ -36,19 +36,13 @@ module.exports = {
     new CleanWebpackPlugin({
       cleanStaleWebpackAssets: false
     }),
-    new CopyPlugin({
-      patterns: [
-        {
-          from: path.resolve('src/static'),
-          to: path.resolve('dist')
-        }
-      ]
-    }),
     ...getHtmlPlugins(['popup', 'options'])
   ],
   output: {
     filename: '[name].js',
-    path: path.resolve('dist')
+    assetModuleFilename: 'assets/[name][ext]',
+    path: path.resolve('dist'),
+    publicPath: ''
   },
   optimization: {
     minimize: true,

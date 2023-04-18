@@ -1,95 +1,67 @@
-import { ApolloProvider, gql, useLazyQuery, useMutation } from '@apollo/client';
+import { ApolloProvider, gql, useLazyQuery } from '@apollo/client';
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
+import { Message } from '../common/messages/message';
 import { TooltipRequestMessage } from '../common/messages/tooltip-request';
-import { Summary } from '../components/summary';
-import {
-  RequestSummaryQuery,
-  RequestSummaryQueryVariables,
-  SaveSummaryMutation,
-  SaveSummaryMutationVariables
-} from '../gql/graphql';
+import { AppContextProvider, useAppContext } from '../context/app-context';
+import { RequestSummaryQuery, RequestSummaryQueryVariables } from '../gql/graphql';
 import client from '../graphql/apollo';
 import { useMessenger } from '../hooks/useMessenger';
 import { Tooltip } from './components/tooltip';
+import { TooltipError } from './components/tooltip-error';
+import { TooltipLoading } from './components/tooltip-loading';
+import { TooltipSummary } from './components/tooltip-summary';
 import './contentScript.css';
 
 const REQUEST_SUMMARY_QUERY = gql`
   query RequestSummary($queryInput: RequestSummaryInput!) {
     summary: requestSummary(input: $queryInput) {
-      content
-      tags
-    }
-  }
-`;
-
-const SAVE_SUMMARY_MUTATION = gql`
-  mutation SaveSummary($saveSummaryInput: SaveSummaryInput!) {
-    saveSummary(input: $saveSummaryInput) {
       id
       content
       tags
-      createdAt
     }
   }
 `;
 
 const App: React.FC<{}> = () => {
-  const [tooltipOpen, setTooltipOpen] = useState<boolean>(false);
-  const [highlightedText, setHighlightedText] = useState<string>('');
+  const { loadSummary, setHighlightedText, openTooltip } = useAppContext();
 
   const [fetchSummary, { data: fetchedData, loading: fetchLoading, error: fetchError }] = useLazyQuery<
     RequestSummaryQuery,
     RequestSummaryQueryVariables
-  >(REQUEST_SUMMARY_QUERY);
+  >(REQUEST_SUMMARY_QUERY, {
+    onCompleted: (data: RequestSummaryQuery) => loadSummary(data)
+  });
 
-  const [saveSummary, { data: savedData, loading: saveLoading, error: saveError }] = useMutation<
-    SaveSummaryMutation,
-    SaveSummaryMutationVariables
-  >(SAVE_SUMMARY_MUTATION, {});
+  const [errorDismissed, setErrorDismissed] = useState(true);
 
-  const handleTooltipRequested = (message: TooltipRequestMessage) => {
-    setTooltipOpen(true);
-    setHighlightedText(message.selectionText);
-    fetchSummary({ variables: { queryInput: { text: message.selectionText } } });
+  const handleTooltipRequested = (message: Message) => {
+    const tooltipMessage: TooltipRequestMessage = message as TooltipRequestMessage;
+    openTooltip();
+    setHighlightedText(tooltipMessage.selectionText);
+    fetchSummary({ variables: { queryInput: { text: tooltipMessage.selectionText } } });
   };
 
   useMessenger(handleTooltipRequested, TooltipRequestMessage.isTooltipRequestMessage);
 
-  const handleSaveSummary = () => {
-    saveSummary({
-      variables: {
-        saveSummaryInput: {
-          content: fetchedData.summary.content,
-          tags: fetchedData.summary.tags,
-          highlightedText
-        }
-      }
-    });
-  };
-
   return (
-    <Tooltip tooltipOpen={tooltipOpen} setTooltipOpen={setTooltipOpen}>
-      {fetchLoading && 'Loading'}
-      {fetchError && 'Error'}
-      {fetchedData && (
-        <>
-          <Summary detail={fetchedData.summary.content} tags={fetchedData.summary.tags} />
-          <button disabled={saveLoading} onClick={handleSaveSummary}>
-            Save
-          </button>
-        </>
-      )}
+    <Tooltip>
+      {fetchLoading && <TooltipLoading />}
+      {fetchError && !errorDismissed && <TooltipError handleDismiss={() => setErrorDismissed(true)} />}
+      {fetchedData && <TooltipSummary />}
     </Tooltip>
   );
 };
 
 const rootElement = document.createElement('div');
+rootElement.id = 'fd-app-root';
 document.body.appendChild(rootElement);
 
 const root = ReactDOM.createRoot(rootElement);
 root.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>
+  <AppContextProvider>
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
+  </AppContextProvider>
 );

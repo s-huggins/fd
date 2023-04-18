@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+
+#fd-app-root,
+#fd-floating-portal-root {
+  z-index: 2147483647;
+}
+
+#fd-app-root,
+#fd-floating-portal-root * {
+  outline: none !important;
+}
+
+#fd-app-root,
+#fd-floating-portal-root *:focus {
+  outline: none !important;
+}
+
+#fd-app-root,
+#fd-floating-portal-root *:active {
+  outline: none !important;
+}
+
+#fd-floating-portal-root {
+  position: relative;
+}
+
+/* #fd-app-root * {
+  all: revert;
+} */

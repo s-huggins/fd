@@ -1,4 +1,4 @@
-import { Field, InputType, ObjectType, OmitType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { OpenAISummary } from './openai-summary.dto';
 
 @InputType()
@@ -8,4 +8,4 @@ export class RequestSummaryInput {
 }
 
 @ObjectType()
-export class RequestSummaryOutput extends OmitType(OpenAISummary, ['createdAt']) {}
+export class RequestSummaryOutput extends OpenAISummary {}

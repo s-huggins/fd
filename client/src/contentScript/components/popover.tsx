@@ -17,7 +17,7 @@ import {
 import React from 'react';
 
 /**
- * Adaptaed from https://floating-ui.com/docs/popover
+ * Adapted from https://floating-ui.com/docs/popover
  */
 
 interface PopoverOptions {
@@ -90,16 +90,7 @@ type ContextType =
   | null;
 
 const PopoverContext = React.createContext<ContextType>(null);
-
-export const usePopoverContext = () => {
-  const context = React.useContext(PopoverContext);
-
-  if (context == null) {
-    throw new Error('Popover components must be wrapped in <Popover />');
-  }
-
-  return context;
-};
+const usePopoverContext = () => React.useContext(PopoverContext);
 
 export function Popover({
   children,
@@ -121,7 +112,14 @@ export const PopoverTrigger = React.forwardRef<HTMLElement, React.HTMLProps<HTML
   const context = usePopoverContext();
   const ref = useMergeRefs([context.refs.setReference, propRef]);
 
-  return <span ref={ref} data-state={context.open ? 'open' : 'closed'} {...context.getReferenceProps(props)}></span>;
+  return (
+    <span
+      className="z-[1000000]"
+      ref={ref}
+      data-state={context.open ? 'open' : 'closed'}
+      {...context.getReferenceProps(props)}
+    ></span>
+  );
 });
 
 export const PopoverContent = React.forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement>>(function PopoverContent(
@@ -132,7 +130,7 @@ export const PopoverContent = React.forwardRef<HTMLDivElement, React.HTMLProps<H
   const ref = useMergeRefs([context.refs.setFloating, propRef]);
 
   return (
-    <FloatingPortal>
+    <FloatingPortal id="fd-floating-portal-root">
       {context.open && (
         <FloatingFocusManager context={floatingContext} modal={context.modal}>
           <div

@@ -1,17 +1,14 @@
 import clsx from 'clsx';
 import React, { FC, useLayoutEffect, useRef } from 'react';
+import { useAppContext } from '../../context/app-context';
 import { useClickPositionRef } from '../../hooks/useClickPositionRef';
 import { Popover, PopoverContent, PopoverTrigger } from './popover';
-import './tooltip.css';
 
-interface ITooltipProps {
-  tooltipOpen: boolean;
-  setTooltipOpen: (open: boolean) => void;
-}
-
-export const Tooltip: FC<ITooltipProps> = ({ tooltipOpen, setTooltipOpen, children }) => {
+export const Tooltip: FC = ({ children }) => {
   const tooltipContainerRef = useRef<HTMLDivElement>(null);
   const clickCoordinatesRef = useClickPositionRef();
+
+  const { tooltipOpen, setTooltipOpen } = useAppContext();
 
   const positionTooltip = () => {
     if (clickCoordinatesRef?.current?.pagePosition) {
@@ -23,13 +20,13 @@ export const Tooltip: FC<ITooltipProps> = ({ tooltipOpen, setTooltipOpen, childr
 
   useLayoutEffect(() => {
     positionTooltip();
-  });
+  }, [tooltipOpen]);
 
   return (
     <div className={clsx('absolute', !tooltipOpen && 'hidden')} ref={tooltipContainerRef}>
       <Popover open={tooltipOpen} onOpenChange={setTooltipOpen}>
         <PopoverTrigger></PopoverTrigger>
-        <PopoverContent className="Popover">{children}</PopoverContent>
+        <PopoverContent>{children}</PopoverContent>
       </Popover>
     </div>
   );
