@@ -5,7 +5,7 @@ import { PaginationFragment } from '../../common/graphql/fragments/pagination';
 import { useAppContext } from '../../context/app-context';
 import { ISummary } from '../../context/summary.interface';
 import { CreatedAtSortOrder, GetSummariesQuery, GetSummariesQueryVariables, SummaryDto } from '../../gql/graphql';
-import { SummaryList } from './summary-list';
+import { LibrarySummaryList } from './library-summary-list';
 
 const libraryClasses = cva(
   [
@@ -66,12 +66,6 @@ const GET_SUMMARIES_QUERY = gql`
   ${PaginationFragment}
 `;
 
-const DELETE_SUMMARY_MUTATION = gql`
-  mutation DeleteSummary($deleteSummaryInput: DeleteSummaryInput!) {
-    deleteSummary(input: $deleteSummaryInput)
-  }
-`;
-
 const fromDto = (summaryDto: SummaryDto): ISummary => {
   return {
     ...summaryDto,
@@ -102,24 +96,20 @@ export const Library: FC<ILibraryProps> = () => {
     }
   );
 
+  const onSummaryDeleted = () => {
+    refetch(getSearchQueryVariables());
+  };
+
   let libraryPageContent: ReactNode = null;
   if (error) {
     libraryPageContent = <p>Something went wrong!</p>;
   } else if (loading) {
     libraryPageContent = <p>Loading...</p>;
   } else if (data) {
-    libraryPageContent = <SummaryList summaries={data.summaries.data.map(fromDto)} />;
+    libraryPageContent = (
+      <LibrarySummaryList summaries={data.summaries.data.map(fromDto)} onSummaryDeleted={onSummaryDeleted} />
+    );
   }
 
   return <>{libraryPageContent}</>;
 };
-
-// const [deleteSummary, { data: deleteData, loading: deleteLoading, error: deleteError }] = useMutation<
-//   DeleteSummaryMutation,
-//   DeleteSummaryMutationVariables
-// >(DELETE_SUMMARY_MUTATION, {});
-
-// const handleDeleteSummary = (summaryId: string) => {
-//   deleteSummary({ variables: { deleteSummaryInput: { id: summaryId } } });
-//   refetch(getSearchQueryVariables());
-// };
