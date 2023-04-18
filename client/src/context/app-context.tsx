@@ -1,6 +1,6 @@
 import React, { FC, createContext, useContext, useEffect, useState } from 'react';
 import { RequestSummaryQuery } from '../gql/graphql';
-import { EXTENSION_ENABLED } from '../storage/keys';
+import { EXTENSION_ENABLED_KEY } from '../storage/keys';
 import { Storage } from '../storage/storage';
 import { IAppContext, ITooltipLoadedSummary } from './app-context.interface';
 import { AppThemeEnum } from './app-theme.enum';
@@ -42,7 +42,7 @@ export const AppContextProvider: FC = ({ children }) => {
   const [librarySummaries, setLibrarySummaries] = useState<ISummary[]>(DEFAULT_APP_CONTEXT.libraryContext.summaries);
   const setExtensionActive = (active: boolean) => {
     setActive(active);
-    Storage.set(EXTENSION_ENABLED, active);
+    Storage.set(EXTENSION_ENABLED_KEY, active);
   };
 
   const loadSummary = (summaryQueryOutput: RequestSummaryQuery) => {
@@ -57,7 +57,7 @@ export const AppContextProvider: FC = ({ children }) => {
   };
 
   const hydrateFromStorage = async () => {
-    const extensionEnabled: boolean = await Storage.get(EXTENSION_ENABLED);
+    const extensionEnabled: boolean = await Storage.get(EXTENSION_ENABLED_KEY);
     setActive(extensionEnabled);
     setHydrated(true);
   };

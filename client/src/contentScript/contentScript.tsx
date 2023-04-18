@@ -1,8 +1,8 @@
 import { ApolloProvider, gql, useLazyQuery } from '@apollo/client';
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
+import { OpenTooltipCommand } from '../common/messages/commands/open-tooltip-command';
 import { Message } from '../common/messages/message';
-import { TooltipRequestMessage } from '../common/messages/tooltip-request';
 import { AppContextProvider, useAppContext } from '../context/app-context';
 import { RequestSummaryQuery, RequestSummaryQueryVariables } from '../gql/graphql';
 import client from '../graphql/apollo';
@@ -36,13 +36,13 @@ const App: React.FC<{}> = () => {
   const [errorDismissed, setErrorDismissed] = useState(true);
 
   const handleTooltipRequested = (message: Message) => {
-    const tooltipMessage: TooltipRequestMessage = message as TooltipRequestMessage;
+    const tooltipMessage: OpenTooltipCommand = message as OpenTooltipCommand;
     openTooltip();
     setHighlightedText(tooltipMessage.selectionText);
     fetchSummary({ variables: { queryInput: { text: tooltipMessage.selectionText } } });
   };
 
-  useMessenger(handleTooltipRequested, TooltipRequestMessage.isTooltipRequestMessage);
+  useMessenger(handleTooltipRequested, OpenTooltipCommand.isOpenTooltipCommand);
 
   return (
     <Tooltip>
