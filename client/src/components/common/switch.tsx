@@ -1,17 +1,30 @@
 import React, { FC } from 'react';
 import ReactSwitch from 'react-switch';
+import { useAppContext } from '../../context/app-context';
+import { Colours } from '../../lib/colours';
 
-interface ISwitchProps {
+export interface ISwitchProps extends React.HTMLAttributes<HTMLSpanElement> {
   checked: boolean;
   onToggle: (newState: boolean) => void;
-  label: string;
 }
 
-export const Switch: FC<ISwitchProps> = ({ checked, onToggle, label }) => {
+export const Switch: FC<ISwitchProps> = ({ checked, onToggle, className, ...props }) => {
+  const { theme } = useAppContext();
+
   return (
-    <label>
-      <span>{label}</span>
-      <ReactSwitch checked={checked} onChange={onToggle} uncheckedIcon={false} checkedIcon={false} />
-    </label>
+    <span className={className} {...props}>
+      <ReactSwitch
+        className="block"
+        height={15}
+        width={30}
+        onHandleColor={Colours.colors['dark-detail']}
+        offHandleColor={Colours.colors['dark-detail']}
+        onColor={Colours.colors['dark-highlight']}
+        checked={checked}
+        onChange={onToggle}
+        uncheckedIcon={false}
+        checkedIcon={false}
+      />
+    </span>
   );
 };

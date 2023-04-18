@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-const iconUrl = chrome.runtime.getURL('assets/icon.png');
+const iconUrl = chrome.runtime.getURL('assets/images/icon.png');
 
 export interface IFDIconProps extends React.HTMLAttributes<HTMLImageElement> {}
 

@@ -8,8 +8,14 @@ export interface ITooltipLoadedSummary {
   saved: boolean;
 }
 
+export interface ILibraryContext {
+  summaries: ISummary[];
+  setSummaries: (summaries: ISummary[]) => void;
+}
+
 export interface IAppContext {
   theme: AppThemeEnum;
+  setTheme: (theme: AppThemeEnum) => void;
   extensionActive: boolean;
   tooltipOpen: boolean;
   setTooltipOpen: (open: boolean) => void;
@@ -18,9 +24,9 @@ export interface IAppContext {
   highlightedText: string;
   setHighlightedText: (text: string) => void;
   setExtensionActive: (enabled: boolean) => void;
-  summaries: ISummary[];
   hydrated: boolean;
-  loadedSummary: ITooltipLoadedSummary;
+  loadedTooltipSummary: ITooltipLoadedSummary;
   saveLoadedSummary: () => void;
   loadSummary: (summary: RequestSummaryQuery) => void;
+  libraryContext: ILibraryContext;
 }

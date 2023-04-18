@@ -36,7 +36,6 @@ export interface ITimestampProps extends React.HTMLAttributes<HTMLSpanElement>, 
 
 export const Timestamp: FC<ITimestampProps> = ({ timestamp, className, ...props }) => {
   const { theme } = useAppContext();
-
   return (
     <span className={timestampClasses({ theme, className })} {...props}>
       {timestamp.toDateString()}

@@ -16,7 +16,7 @@ const documents = {
     "\n  fragment PaginationFragment on PaginationFields {\n    page\n    itemsPerPage\n    totalPages\n  }\n": types.PaginationFragmentFragmentDoc,
     "\n  mutation SaveSummary($saveSummaryInput: SaveSummaryInput!) {\n    saveSummary(input: $saveSummaryInput) {\n      id\n      content\n      tags\n      createdAt\n    }\n  }\n": types.SaveSummaryDocument,
     "\n  query RequestSummary($queryInput: RequestSummaryInput!) {\n    summary: requestSummary(input: $queryInput) {\n      id\n      content\n      tags\n    }\n  }\n": types.RequestSummaryDocument,
-    "\n  query GetSummaries($queryInput: SummaryQueryInput!) {\n    summaries: getSummaries(input: $queryInput) {\n      pagination {\n        ...PaginationFragment\n      }\n      data {\n        id\n        content\n        tags\n        createdAt\n      }\n    }\n  }\n  \n": types.GetSummariesDocument,
+    "\n  query GetSummaries($queryInput: SummaryQueryInput!) {\n    summaries: getSummaries(input: $queryInput) {\n      pagination {\n        ...PaginationFragment\n      }\n      data {\n        id\n        content\n        tags\n        highlightedText\n        createdAt\n      }\n    }\n  }\n  \n": types.GetSummariesDocument,
     "\n  mutation DeleteSummary($deleteSummaryInput: DeleteSummaryInput!) {\n    deleteSummary(input: $deleteSummaryInput)\n  }\n": types.DeleteSummaryDocument,
 };
 
@@ -49,7 +49,7 @@ export function graphql(source: "\n  query RequestSummary($queryInput: RequestSu
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query GetSummaries($queryInput: SummaryQueryInput!) {\n    summaries: getSummaries(input: $queryInput) {\n      pagination {\n        ...PaginationFragment\n      }\n      data {\n        id\n        content\n        tags\n        createdAt\n      }\n    }\n  }\n  \n"): (typeof documents)["\n  query GetSummaries($queryInput: SummaryQueryInput!) {\n    summaries: getSummaries(input: $queryInput) {\n      pagination {\n        ...PaginationFragment\n      }\n      data {\n        id\n        content\n        tags\n        createdAt\n      }\n    }\n  }\n  \n"];
+export function graphql(source: "\n  query GetSummaries($queryInput: SummaryQueryInput!) {\n    summaries: getSummaries(input: $queryInput) {\n      pagination {\n        ...PaginationFragment\n      }\n      data {\n        id\n        content\n        tags\n        highlightedText\n        createdAt\n      }\n    }\n  }\n  \n"): (typeof documents)["\n  query GetSummaries($queryInput: SummaryQueryInput!) {\n    summaries: getSummaries(input: $queryInput) {\n      pagination {\n        ...PaginationFragment\n      }\n      data {\n        id\n        content\n        tags\n        highlightedText\n        createdAt\n      }\n    }\n  }\n  \n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -2,6 +2,7 @@ import { gql, useMutation } from '@apollo/client';
 import { VariantProps, cva } from 'class-variance-authority';
 import React, { FC } from 'react';
 import { Button } from '../../components/common/button';
+import { FDIcon } from '../../components/common/fd-icon';
 import { Summary } from '../../components/summary';
 import { useAppContext } from '../../context/app-context';
 import { SaveSummaryMutation, SaveSummaryMutationVariables } from '../../gql/graphql';
@@ -37,7 +38,7 @@ const tooltipClasses = cva(
   {
     variants: {
       theme: {
-        dark: ['bg-dark-main', 'text-white'],
+        dark: ['bg-dark-main', 'text-dark-text'],
 
         light: [
           'bg-white',
@@ -66,7 +67,7 @@ export interface ITooltipSummaryProps
     VariantProps<typeof tooltipClasses> {}
 
 export const TooltipSummary: FC<ITooltipSummaryProps> = ({ className, ...props }) => {
-  const { loadedSummary, saveLoadedSummary, highlightedText, theme } = useAppContext();
+  const { loadedTooltipSummary: loadedSummary, saveLoadedSummary, highlightedText, theme } = useAppContext();
 
   const [saveSummary, { data: savedData, loading: saveLoading, error: saveError }] = useMutation<
     SaveSummaryMutation,
@@ -89,8 +90,10 @@ export const TooltipSummary: FC<ITooltipSummaryProps> = ({ className, ...props }
 
   return (
     <div className={tooltipClasses({ theme, className })} {...props}>
-      <Summary detail={loadedSummary.summary.content} tags={loadedSummary.summary.tags} />
-
+      <div className="flex justify-end mb-1" style={{ marginTop: '-6px' }}>
+        <FDIcon className="h-5 opacity-75" />
+      </div>
+      <Summary content={loadedSummary.summary.content} tags={loadedSummary.summary.tags} />
       <div className="h-9">
         {!loadedSummary.saved && (
           <Button disabled={saveLoading} onClick={handleSaveSummary}>

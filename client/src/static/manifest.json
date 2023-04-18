@@ -4,15 +4,15 @@
   "version": "1.0.0",
   "manifest_version": 3,
   "icons": {
-    "16": "assets/icon.png",
-    "48": "assets/icon.png",
-    "128": "assets/icon.png"
+    "16": "assets/images/icon.png",
+    "48": "assets/images/icon.png",
+    "128": "assets/images/icon.png"
   },
   "permissions": ["storage", "contextMenus", "tabs"],
   "action": {
     "default_popup": "popup.html",
     "default_title": "Frontdoor",
-    "default_icon": "assets/icon.png"
+    "default_icon": "assets/images/icon.png"
   },
   "options_page": "options.html",
   "background": {
@@ -26,7 +26,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["/assets/icon.png"],
+      "resources": ["/assets/images/icon.png"],
       "matches": ["<all_urls>"]
     }
   ]

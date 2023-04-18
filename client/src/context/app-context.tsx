@@ -8,6 +8,7 @@ import { ISummary } from './summary.interface';
 
 const DEFAULT_APP_CONTEXT: IAppContext = {
   theme: AppThemeEnum.Dark,
+  setTheme: (theme: AppThemeEnum) => {},
   extensionActive: false,
   tooltipOpen: false,
   setTooltipOpen: (open: boolean) => {},
@@ -16,9 +17,12 @@ const DEFAULT_APP_CONTEXT: IAppContext = {
   setExtensionActive: (active: boolean) => {},
   highlightedText: null,
   setHighlightedText: (text: string) => {},
-  summaries: [],
+  libraryContext: {
+    summaries: [],
+    setSummaries: (summaries: ISummary[]) => {}
+  },
   hydrated: false,
-  loadedSummary: {
+  loadedTooltipSummary: {
     summary: null,
     saved: false
   },
@@ -33,10 +37,9 @@ export const AppContextProvider: FC = ({ children }) => {
   const [active, setActive] = useState<boolean>(DEFAULT_APP_CONTEXT.extensionActive);
   const [tooltipOpen, setTooltipOpen] = useState<boolean>(DEFAULT_APP_CONTEXT.tooltipOpen);
   const [hydrated, setHydrated] = useState<boolean>(DEFAULT_APP_CONTEXT.hydrated);
-  const [summaries, setSummaries] = useState<ISummary[]>(DEFAULT_APP_CONTEXT.summaries);
-  const [loadedSummary, setLoadedSummary] = useState<ITooltipLoadedSummary>(DEFAULT_APP_CONTEXT.loadedSummary);
+  const [loadedSummary, setLoadedSummary] = useState<ITooltipLoadedSummary>(DEFAULT_APP_CONTEXT.loadedTooltipSummary);
   const [highlightedText, setHighlightedText] = useState<string>(DEFAULT_APP_CONTEXT.highlightedText);
-
+  const [librarySummaries, setLibrarySummaries] = useState<ISummary[]>(DEFAULT_APP_CONTEXT.libraryContext.summaries);
   const setExtensionActive = (active: boolean) => {
     setActive(active);
     Storage.set(EXTENSION_ENABLED, active);
@@ -75,11 +78,15 @@ export const AppContextProvider: FC = ({ children }) => {
   // TODO: use redux pattern (useReducer)
   const context: IAppContext = {
     theme,
+    setTheme,
     extensionActive: active,
     setExtensionActive,
-    summaries,
+    libraryContext: {
+      setSummaries: setLibrarySummaries,
+      summaries: librarySummaries
+    },
     hydrated,
-    loadedSummary,
+    loadedTooltipSummary: loadedSummary,
     loadSummary,
     saveLoadedSummary,
     highlightedText,

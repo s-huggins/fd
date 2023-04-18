@@ -1,5 +1,7 @@
 export interface ISummary {
+  id: string;
   highlightedText: string;
-  summary: string;
+  content: string;
   tags: string[];
+  createdAt: Date;
 }

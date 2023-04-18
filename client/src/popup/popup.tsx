@@ -1,100 +1,65 @@
-import { ApolloProvider, gql, useMutation, useQuery } from '@apollo/client';
-import React, { ReactNode, useContext, useState } from 'react';
+import { ApolloProvider } from '@apollo/client';
+import { cva } from 'class-variance-authority';
+import React, { useContext } from 'react';
 import ReactDOM from 'react-dom/client';
-import { PaginationFragment } from '../common/graphql/fragments/pagination';
-import { Switch } from '../components/common/switch';
 import { AppContext, AppContextProvider } from '../context/app-context';
-import {
-  CreatedAtSortOrder,
-  DeleteSummaryMutation,
-  DeleteSummaryMutationVariables,
-  GetSummariesQuery,
-  GetSummariesQueryVariables
-} from '../gql/graphql';
 import client from '../graphql/apollo';
+import { ExtensionHeader } from './components/extension-header';
+import { ExtensionToggle } from './components/extension-toggle';
+import { Library } from './components/library';
+import './popup.css';
 
-const GET_SUMMARIES_QUERY = gql`
-  query GetSummaries($queryInput: SummaryQueryInput!) {
-    summaries: getSummaries(input: $queryInput) {
-      pagination {
-        ...PaginationFragment
+const popupClasses = cva(
+  [
+    // defaults
+    'w-[600px]',
+    'font-montserrat',
+    'p-4',
+    'overflow-y-auto',
+    'text-base',
+    'leading-7',
+    'shadow-dark-inner'
+  ],
+  {
+    variants: {
+      theme: {
+        dark: ['bg-dark-main', 'text-dark-text'],
+
+        light: [
+          'bg-white',
+          'text-black',
+          'border-gray-400',
+          'hover:bg-gray-100',
+          'border-solid',
+          'border-2',
+          'border-gray-800'
+        ]
+      },
+      size: {
+        small: ['text-md', 'py-1', 'px-2'],
+        medium: ['text-lg', 'px-6', 'py-2'],
+        large: ['text-xlg', 'px-8', 'py-4']
       }
-      data {
-        id
-        content
-        tags
-        createdAt
-      }
+    },
+    defaultVariants: {
+      theme: 'dark'
     }
   }
-  ${PaginationFragment}
-`;
-
-const DELETE_SUMMARY_MUTATION = gql`
-  mutation DeleteSummary($deleteSummaryInput: DeleteSummaryInput!) {
-    deleteSummary(input: $deleteSummaryInput)
-  }
-`;
+);
 
 const App: React.FC<{}> = () => {
-  const context = useContext(AppContext);
-  const [sortOrder, setSortOrder] = useState<CreatedAtSortOrder>(CreatedAtSortOrder.NewestFirst);
-  const [tagFilters, setTagFilters] = useState<string[]>([]);
-  const [page, setPage] = useState<number>(1);
-
-  const getSearchQueryVariables = (): GetSummariesQueryVariables => {
-    return { queryInput: { createdAtSortOrder: sortOrder, tagFilters, page } };
-  };
-
-  const { loading, error, data, refetch } = useQuery<GetSummariesQuery, GetSummariesQueryVariables>(
-    GET_SUMMARIES_QUERY,
-    {
-      variables: getSearchQueryVariables()
-    }
-  );
-
-  const [deleteSummary, { data: deleteData, loading: deleteLoading, error: deleteError }] = useMutation<
-    DeleteSummaryMutation,
-    DeleteSummaryMutationVariables
-  >(DELETE_SUMMARY_MUTATION, {});
-
-  const handleDeleteSummary = (summaryId: string) => {
-    deleteSummary({ variables: { deleteSummaryInput: { id: summaryId } } });
-    refetch(getSearchQueryVariables());
-  };
-
-  let libraryPageContent: ReactNode = null;
-  if (error) {
-    libraryPageContent = <p>Something went wrong!</p>;
-  } else if (loading) {
-    libraryPageContent = <p>Loading...</p>;
-  } else if (data) {
-    libraryPageContent = data.summaries.data.map(summary => {
-      return (
-        <div key={summary.id}>
-          <div>
-            <p>{summary.content}</p>
-            <span>{summary.tags.join(', ')}</span>
-            <span>{summary.createdAt}</span>
-            <button disabled={deleteLoading} onClick={() => handleDeleteSummary(summary.id)}>
-              Delete
-            </button>
-          </div>
-        </div>
-      );
-    });
-  }
+  const { theme, hydrated } = useContext(AppContext);
 
   return (
-    <>
-      <h1>Frontdoor</h1>
-      {context.hydrated && (
+    <div className={popupClasses({ theme })}>
+      <ExtensionHeader className="mb-2" />
+      {hydrated && (
         <div>
-          <Switch label="Enabled" checked={context.extensionActive} onToggle={context.setExtensionActive} />
-          {libraryPageContent}
+          <ExtensionToggle className="mb-2" />
+          <Library />
         </div>
       )}
-    </>
+    </div>
   );
 };
 
