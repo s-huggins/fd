@@ -3,8 +3,8 @@ import { Field, InputType, Int } from '@nestjs/graphql';
 @InputType()
 export class PaginatedInput {
   @Field(type => Int, { defaultValue: 1 })
-  page: number;
+  public page: number = 1;
 
   @Field(type => Int, { defaultValue: 10 })
-  itemsPerPage: number;
+  public itemsPerPage: number = 10;
 }

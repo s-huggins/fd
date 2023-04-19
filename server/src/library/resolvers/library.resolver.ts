@@ -1,9 +1,9 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { DeleteSummaryInput } from './dtos/delete-summary-input.dto';
-import { SaveSummaryInput, SaveSummaryOutput } from './dtos/save-summary.dto';
-import { SummaryQueryInput } from './dtos/summary-query-input.dto';
-import { SummaryQueryOutput } from './dtos/summary-query-output.dto';
-import { LibraryService } from './library.service';
+import { DeleteSummaryInput } from '../dtos/delete-summary-input.dto';
+import { SaveSummaryInput, SaveSummaryOutput } from '../dtos/save-summary.dto';
+import { SummaryQueryInput } from '../dtos/summary-query-input.dto';
+import { SummaryQueryOutput } from '../dtos/summary-query-output.dto';
+import { LibraryService } from '../services/library.service';
 
 @Resolver()
 export class LibraryResolver {

@@ -1,6 +1,6 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
-import { RequestSummaryInput, RequestSummaryOutput } from './dtos/request-summary.dto';
-import { OpenAIService } from './openai.service';
+import { RequestSummaryInput, RequestSummaryOutput } from '../dtos/request-summary.dto';
+import { OpenAIService } from '../services/openai.service';
 
 @Resolver()
 export class OpenAIResolver {

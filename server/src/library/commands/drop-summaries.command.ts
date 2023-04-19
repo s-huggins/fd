@@ -1,5 +1,5 @@
 import { Command, CommandRunner } from 'nest-commander';
-import { LibraryService } from '../library.service';
+import { LibraryService } from '../services/library.service';
 
 @Command({
   name: 'summaries:drop',

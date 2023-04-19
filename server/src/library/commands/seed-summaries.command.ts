@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { Command, CommandRunner, Option } from 'nest-commander';
 import { SaveSummaryInput } from '../dtos/save-summary.dto';
-import { LibraryService } from '../library.service';
+import { LibraryService } from '../services/library.service';
 
 @Command({
   name: 'summaries:seed',

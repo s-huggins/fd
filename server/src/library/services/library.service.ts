@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { DeleteSummaryInput } from './dtos/delete-summary-input.dto';
-import { SaveSummaryInput } from './dtos/save-summary.dto';
-import { SummaryQueryInput } from './dtos/summary-query-input.dto';
-import { SummaryQueryOutput } from './dtos/summary-query-output.dto';
-import { Summary } from './models/summary.interface';
-import { SUMMARY } from './models/summary.schema';
+import { DeleteSummaryInput } from '../dtos/delete-summary-input.dto';
+import { SaveSummaryInput } from '../dtos/save-summary.dto';
+import { SummaryQueryInput } from '../dtos/summary-query-input.dto';
+import { SummaryQueryOutput } from '../dtos/summary-query-output.dto';
+import { Summary } from '../models/summary';
+
 @Injectable()
 export class LibraryService {
-  constructor(@InjectModel(SUMMARY) private readonly _summaryModel: Model<Summary>) {}
+  constructor(@InjectModel(Summary.name) private readonly _summaryModel: Model<Summary>) {}
 
   public async createSummary(summaryInput: SaveSummaryInput): Promise<Summary> {
     const summary = new this._summaryModel(summaryInput);

@@ -1,5 +1,5 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
-import { Summary } from '../models/summary.interface';
+import { Summary } from '../models/summary';
 
 @ObjectType()
 @InputType({ isAbstract: true })
