@@ -1,10 +1,11 @@
 import { gql, useLazyQuery } from '@apollo/client';
 import { VariantProps, cva } from 'class-variance-authority';
-import React, { FC, ReactNode, useEffect } from 'react';
-import { PaginationFragment } from '../../common/graphql/fragments/pagination';
+import React, { FC, ReactNode, useEffect, useRef } from 'react';
 import { useAppContext } from '../../context/app-context';
+import { ILibraryPerspective } from '../../context/app-context.interface';
 import { ISummary } from '../../context/summary.interface';
 import { GetSummariesQuery, GetSummariesQueryVariables, SummaryDto } from '../../gql/graphql';
+import { LibraryPageControls } from './library-page-controls';
 import { LibrarySummaryList } from './library-summary-list';
 import { IActiveTagFilter, ListControls } from './list-controls';
 
@@ -53,7 +54,7 @@ const GET_SUMMARIES_QUERY = gql`
   query GetSummaries($queryInput: SummaryQueryInput!) {
     summaries: getSummaries(input: $queryInput) {
       pagination {
-        ...PaginationFragment
+        totalPages
       }
       data {
         id
@@ -64,7 +65,6 @@ const GET_SUMMARIES_QUERY = gql`
       }
     }
   }
-  ${PaginationFragment}
 `;
 
 const fromDto = (summaryDto: SummaryDto): ISummary => {
@@ -85,6 +85,8 @@ export const Library: FC<ILibraryProps> = () => {
     }
   } = useAppContext();
 
+  const totalPagesRef = useRef(1);
+
   const getSearchQueryVariables = (): GetSummariesQueryVariables => {
     const activeTags = tagFilters.map((tagFilter: IActiveTagFilter) => tagFilter.tag);
     return { queryInput: { createdAtSortOrder: sortOrder, tagFilters: activeTags, page } };
@@ -96,12 +98,18 @@ export const Library: FC<ILibraryProps> = () => {
       variables: getSearchQueryVariables(),
       onCompleted: (queryResponse: GetSummariesQuery) => {
         setSummaries(queryResponse.summaries.data.map(fromDto));
+        totalPagesRef.current = queryResponse.summaries.pagination.totalPages;
+        window.scrollTo(0, 0);
       }
     }
   );
 
   const onSummaryDeleted = () => {
     refetch({ variables: getSearchQueryVariables() });
+  };
+
+  const navigateToPage = (newPage: number) => {
+    setPerspective((oldPerspective: ILibraryPerspective) => ({ ...oldPerspective, page: newPage }));
   };
 
   useEffect(() => {
@@ -115,6 +123,12 @@ export const Library: FC<ILibraryProps> = () => {
       <>
         <ListControls />
         <LibrarySummaryList summaries={availableSummaries} onSummaryDeleted={onSummaryDeleted} />
+        <LibraryPageControls
+          page={page}
+          loading={loading}
+          totalPages={totalPagesRef.current}
+          onNavigate={navigateToPage}
+        />
       </>
     );
   } else if (loading) {

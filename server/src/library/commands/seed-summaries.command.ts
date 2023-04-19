@@ -17,9 +17,9 @@ export class SeedSummariesCommand extends CommandRunner {
 
   public async run(inputs: string[], options: Record<string, any>): Promise<void> {
     if (options.count) {
-      console.log('Clearing database...');
+      console.log('Dropping summaries...');
       await this._libraryService.deleteAll();
-      console.log('Seeding database...');
+      console.log('Seeding summaries...');
       const summaries: SaveSummaryInput[] = Array.from({ length: options.count }, this.makeRandomSummary.bind(this));
       await this._libraryService.createSummaries(summaries);
       console.log('Done');
