@@ -79,6 +79,7 @@ export const Library: FC<ILibraryProps> = () => {
     theme,
     libraryContext: { setSummaries },
     libraryContext: {
+      summaries,
       perspective: { sortOrder, tagFilters, page },
       setPerspective
     }
@@ -94,7 +95,6 @@ export const Library: FC<ILibraryProps> = () => {
     {
       variables: getSearchQueryVariables(),
       onCompleted: (queryResponse: GetSummariesQuery) => {
-        console.log('on complete of query');
         setSummaries(queryResponse.summaries.data.map(fromDto));
       }
     }
@@ -105,22 +105,22 @@ export const Library: FC<ILibraryProps> = () => {
   };
 
   useEffect(() => {
-    console.log('using effect');
     refetch({ variables: getSearchQueryVariables() });
   }, [sortOrder, tagFilters, page]);
 
+  const availableSummaries = data?.summaries?.data?.map(fromDto) ?? summaries;
   let libraryPageContent: ReactNode = null;
-  if (error) {
-    libraryPageContent = <p>Something went wrong!</p>;
-  } else if (loading) {
-    libraryPageContent = <p>Loading...</p>;
-  } else if (data) {
+  if (availableSummaries) {
     libraryPageContent = (
       <>
         <ListControls />
-        <LibrarySummaryList summaries={data.summaries.data.map(fromDto)} onSummaryDeleted={onSummaryDeleted} />
+        <LibrarySummaryList summaries={availableSummaries} onSummaryDeleted={onSummaryDeleted} />
       </>
     );
+  } else if (loading) {
+    libraryPageContent = <p>Loading...</p>;
+  } else if (error) {
+    libraryPageContent = <p>Something went wrong!</p>;
   }
 
   return <>{libraryPageContent}</>;
