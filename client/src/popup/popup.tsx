@@ -47,7 +47,7 @@ const popupClasses = cva(
   }
 );
 
-const App: React.FC<{}> = () => {
+export const App: React.FC<{}> = () => {
   const { theme, hydrated } = useContext(AppContext);
 
   return (
