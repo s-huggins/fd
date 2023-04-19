@@ -16,6 +16,6 @@ export class SummaryDto implements Pick<Summary, 'content' | 'tags' | 'highlight
   @Field(type => String)
   public readonly highlightedText: string;
 
-  @Field(type => Date)
+  @Field(type => String)
   public readonly createdAt: Date;
 }

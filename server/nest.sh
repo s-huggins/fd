@@ -5,4 +5,4 @@
 
 SERVER_CONTAINER_NAME=$(docker ps | grep -w 'fd-server' | awk '{print $NF}')
 docker exec -i $SERVER_CONTAINER_NAME sh << EOF
-npm run nest-command $1 -- ${@:2}
+NODE_ENV='dev' npm run nest-command $1 -- ${@:2}

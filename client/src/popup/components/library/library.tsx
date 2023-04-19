@@ -50,7 +50,7 @@ const libraryClasses = cva(
 
 export interface ILibraryProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof libraryClasses> {}
 
-const GET_SUMMARIES_QUERY = gql`
+export const GET_SUMMARIES_QUERY = gql`
   query GetSummaries($queryInput: SummaryQueryInput!) {
     summaries: getSummaries(input: $queryInput) {
       pagination {
