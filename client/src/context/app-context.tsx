@@ -1,8 +1,8 @@
 import React, { FC, createContext, useContext, useEffect, useState } from 'react';
-import { RequestSummaryQuery } from '../gql/graphql';
+import { CreatedAtSortOrder, RequestSummaryQuery } from '../gql/graphql';
 import { EXTENSION_ENABLED_KEY } from '../storage/keys';
 import { Storage } from '../storage/storage';
-import { IAppContext, ITooltipLoadedSummary } from './app-context.interface';
+import { IAppContext, ILibraryPerspective, ITooltipLoadedSummary } from './app-context.interface';
 import { AppThemeEnum } from './app-theme.enum';
 import { ISummary } from './summary.interface';
 
@@ -19,7 +19,13 @@ const DEFAULT_APP_CONTEXT: IAppContext = {
   setHighlightedText: (text: string) => {},
   libraryContext: {
     summaries: [],
-    setSummaries: (summaries: ISummary[]) => {}
+    setSummaries: (summaries: ISummary[]) => {},
+    perspective: {
+      sortOrder: CreatedAtSortOrder.NewestFirst,
+      tagFilters: [],
+      page: 1
+    },
+    setPerspective: (newPerspective: ILibraryPerspective) => {}
   },
   hydrated: false,
   loadedTooltipSummary: {
@@ -40,6 +46,10 @@ export const AppContextProvider: FC = ({ children }) => {
   const [loadedSummary, setLoadedSummary] = useState<ITooltipLoadedSummary>(DEFAULT_APP_CONTEXT.loadedTooltipSummary);
   const [highlightedText, setHighlightedText] = useState<string>(DEFAULT_APP_CONTEXT.highlightedText);
   const [librarySummaries, setLibrarySummaries] = useState<ISummary[]>(DEFAULT_APP_CONTEXT.libraryContext.summaries);
+  const [libraryPerspective, setLibraryPerspective] = useState<ILibraryPerspective>(
+    DEFAULT_APP_CONTEXT.libraryContext.perspective
+  );
+
   const setExtensionActive = (active: boolean) => {
     setActive(active);
     Storage.set(EXTENSION_ENABLED_KEY, active);
@@ -83,7 +93,9 @@ export const AppContextProvider: FC = ({ children }) => {
     setExtensionActive,
     libraryContext: {
       setSummaries: setLibrarySummaries,
-      summaries: librarySummaries
+      summaries: librarySummaries,
+      perspective: libraryPerspective,
+      setPerspective: setLibraryPerspective
     },
     hydrated,
     loadedTooltipSummary: loadedSummary,

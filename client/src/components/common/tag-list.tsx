@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import React, { FC } from 'react';
+import { FlexList } from './flex-list';
 import { Tag } from './tag';
 
 interface ITagListProps extends React.HTMLAttributes<HTMLUListElement> {
@@ -8,12 +8,11 @@ interface ITagListProps extends React.HTMLAttributes<HTMLUListElement> {
 
 export const TagList: FC<ITagListProps> = ({ tags, className, ...props }) => {
   return (
-    <ul className={clsx('list-none m-0 p-0 flex flex-wrap', className)} {...props}>
-      {tags.map((tag: string) => (
-        <li className="m-0 p-0" key={tag}>
-          <Tag tag={tag} />
-        </li>
-      ))}
-    </ul>
+    <FlexList
+      className="mb-2"
+      data={tags}
+      keyExtractor={(tag: string) => tag}
+      renderer={(tag: string) => <Tag tag={tag} {...props} />}
+    />
   );
 };

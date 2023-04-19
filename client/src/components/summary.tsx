@@ -11,7 +11,7 @@ export const Summary: FC<ISummaryProps> = ({ content: detail, tags }) => {
   return (
     <div>
       <Text className="mb-2">{detail}</Text>
-      <TagList tags={tags} className="mb-2" />
+      <TagList tags={tags} />
     </div>
   );
 };

@@ -55,7 +55,7 @@ const App: React.FC<{}> = () => {
       <ExtensionHeader className="mb-2" />
       {hydrated && (
         <div>
-          <ExtensionToggle className="mb-2" />
+          <ExtensionToggle className="mb-3" />
           <Library />
         </div>
       )}

@@ -1,11 +1,12 @@
-import { gql, useQuery } from '@apollo/client';
+import { gql, useLazyQuery } from '@apollo/client';
 import { VariantProps, cva } from 'class-variance-authority';
-import React, { FC, ReactNode, useState } from 'react';
+import React, { FC, ReactNode, useEffect } from 'react';
 import { PaginationFragment } from '../../common/graphql/fragments/pagination';
 import { useAppContext } from '../../context/app-context';
 import { ISummary } from '../../context/summary.interface';
-import { CreatedAtSortOrder, GetSummariesQuery, GetSummariesQueryVariables, SummaryDto } from '../../gql/graphql';
+import { GetSummariesQuery, GetSummariesQueryVariables, SummaryDto } from '../../gql/graphql';
 import { LibrarySummaryList } from './library-summary-list';
+import { IActiveTagFilter, ListControls } from './list-controls';
 
 const libraryClasses = cva(
   [
@@ -76,29 +77,37 @@ const fromDto = (summaryDto: SummaryDto): ISummary => {
 export const Library: FC<ILibraryProps> = () => {
   const {
     theme,
-    libraryContext: { setSummaries }
+    libraryContext: { setSummaries },
+    libraryContext: {
+      perspective: { sortOrder, tagFilters, page },
+      setPerspective
+    }
   } = useAppContext();
-  const [sortOrder, setSortOrder] = useState<CreatedAtSortOrder>(CreatedAtSortOrder.NewestFirst);
-  const [tagFilters, setTagFilters] = useState<string[]>([]);
-  const [page, setPage] = useState<number>(1);
 
   const getSearchQueryVariables = (): GetSummariesQueryVariables => {
-    return { queryInput: { createdAtSortOrder: sortOrder, tagFilters, page } };
+    const activeTags = tagFilters.map((tagFilter: IActiveTagFilter) => tagFilter.tag);
+    return { queryInput: { createdAtSortOrder: sortOrder, tagFilters: activeTags, page } };
   };
 
-  const { loading, error, data, refetch } = useQuery<GetSummariesQuery, GetSummariesQueryVariables>(
+  const [refetch, { loading, error, data }] = useLazyQuery<GetSummariesQuery, GetSummariesQueryVariables>(
     GET_SUMMARIES_QUERY,
     {
       variables: getSearchQueryVariables(),
       onCompleted: (queryResponse: GetSummariesQuery) => {
+        console.log('on complete of query');
         setSummaries(queryResponse.summaries.data.map(fromDto));
       }
     }
   );
 
   const onSummaryDeleted = () => {
-    refetch(getSearchQueryVariables());
+    refetch({ variables: getSearchQueryVariables() });
   };
+
+  useEffect(() => {
+    console.log('using effect');
+    refetch({ variables: getSearchQueryVariables() });
+  }, [sortOrder, tagFilters, page]);
 
   let libraryPageContent: ReactNode = null;
   if (error) {
@@ -107,7 +116,10 @@ export const Library: FC<ILibraryProps> = () => {
     libraryPageContent = <p>Loading...</p>;
   } else if (data) {
     libraryPageContent = (
-      <LibrarySummaryList summaries={data.summaries.data.map(fromDto)} onSummaryDeleted={onSummaryDeleted} />
+      <>
+        <ListControls />
+        <LibrarySummaryList summaries={data.summaries.data.map(fromDto)} onSummaryDeleted={onSummaryDeleted} />
+      </>
     );
   }
 

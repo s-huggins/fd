@@ -1,4 +1,4 @@
-import { RequestSummaryQuery } from '../gql/graphql';
+import { CreatedAtSortOrder, RequestSummaryQuery } from '../gql/graphql';
 import { AppThemeEnum } from './app-theme.enum';
 import { ISummary } from './summary.interface';
 
@@ -8,9 +8,24 @@ export interface ITooltipLoadedSummary {
   saved: boolean;
 }
 
+export interface IActiveTagFilter {
+  tag: string;
+  id: number;
+}
+
+export interface ILibraryPerspective {
+  sortOrder: CreatedAtSortOrder;
+  tagFilters: IActiveTagFilter[];
+  page: number;
+}
+
 export interface ILibraryContext {
   summaries: ISummary[];
   setSummaries: (summaries: ISummary[]) => void;
+  perspective: ILibraryPerspective;
+  setPerspective: (
+    newPerspective: ILibraryPerspective | ((oldPerspective: ILibraryPerspective) => ILibraryPerspective)
+  ) => void;
 }
 
 export interface IAppContext {

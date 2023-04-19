@@ -24,9 +24,12 @@ export class LibraryService {
   public async getSummaries(summaryQueryInput: SummaryQueryInput): Promise<SummaryQueryOutput> {
     let query = this._summaryModel.find();
 
+    const caseInsensitiveFilter: RegExp[] = summaryQueryInput.tagFilters.map(
+      (tagFilter: string) => new RegExp(`^${tagFilter}$`, 'i')
+    );
     if (summaryQueryInput.tagFilters.length) {
       query = query.where({
-        tags: { $all: summaryQueryInput.tagFilters }
+        tags: { $all: caseInsensitiveFilter }
       });
     }
 
