@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { FlexList } from './flex-list';
+import { FlexList } from '../flex-list';
 import { Tag } from './tag';
 
 interface ITagListProps extends React.HTMLAttributes<HTMLUListElement> {

@@ -1,6 +1,6 @@
 import { VariantProps, cva } from 'class-variance-authority';
 import React, { FC } from 'react';
-import { useAppContext } from '../../context/app-context';
+import { useAppContext } from '../../../context/app-context';
 
 const textClasses = cva(['text-base', 'leading-7', 'font-montserrat'], {
   variants: {

@@ -1,7 +1,7 @@
 import { gql, useMutation } from '@apollo/client';
 import { VariantProps, cva } from 'class-variance-authority';
 import React, { FC } from 'react';
-import { Button } from '../../components/common/button';
+import { Button } from '../../components/common/elements/button';
 import { FDIcon } from '../../components/common/fd-icon';
 import { Summary } from '../../components/summary';
 import { useAppContext } from '../../context/app-context';

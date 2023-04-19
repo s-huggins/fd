@@ -1,9 +1,9 @@
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { FC } from 'react';
-import { FlexList } from '../../components/common/flex-list';
-import { Tag } from '../../components/common/tag';
-import { IActiveTagFilter } from './list-controls';
+import { IActiveTagFilter } from '../../../context/app-context.interface';
+import { FlexList } from '../flex-list';
+import { Tag } from './tag';
 
 interface ITagFilterList {
   tagFilters: IActiveTagFilter[];

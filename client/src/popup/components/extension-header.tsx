@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React, { FC } from 'react';
+import { Heading } from '../../components/common/elements/heading';
 import { FDIcon } from '../../components/common/fd-icon';
-import { Heading } from '../../components/common/heading';
 import { ThemeToggle } from './theme-toggle';
 
 export interface IExtensionHeaderProps extends React.HTMLAttributes<HTMLDivElement> {}

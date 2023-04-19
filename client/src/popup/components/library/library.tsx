@@ -1,13 +1,13 @@
 import { gql, useLazyQuery } from '@apollo/client';
 import { VariantProps, cva } from 'class-variance-authority';
 import React, { FC, ReactNode, useEffect, useRef } from 'react';
-import { useAppContext } from '../../context/app-context';
-import { ILibraryPerspective } from '../../context/app-context.interface';
-import { ISummary } from '../../context/summary.interface';
-import { GetSummariesQuery, GetSummariesQueryVariables, SummaryDto } from '../../gql/graphql';
-import { LibraryPageControls } from './library-page-controls';
+import { PaginationControl } from '../../../components/common/controls/pagination-control';
+import { useAppContext } from '../../../context/app-context';
+import { ILibraryPerspective } from '../../../context/app-context.interface';
+import { ISummary } from '../../../context/summary.interface';
+import { GetSummariesQuery, GetSummariesQueryVariables, SummaryDto } from '../../../gql/graphql';
+import { IActiveTagFilter, LibraryControls } from './library-controls';
 import { LibrarySummaryList } from './library-summary-list';
-import { IActiveTagFilter, ListControls } from './list-controls';
 
 const libraryClasses = cva(
   [
@@ -121,9 +121,9 @@ export const Library: FC<ILibraryProps> = () => {
   if (availableSummaries) {
     libraryPageContent = (
       <>
-        <ListControls />
+        <LibraryControls />
         <LibrarySummaryList summaries={availableSummaries} onSummaryDeleted={onSummaryDeleted} />
-        <LibraryPageControls
+        <PaginationControl
           page={page}
           loading={loading}
           totalPages={totalPagesRef.current}

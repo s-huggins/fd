@@ -2,14 +2,14 @@ import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { FC } from 'react';
 
-interface ILibraryPageControlsProps {
+interface IPaginationControlProps {
   page: number;
   totalPages: number;
   onNavigate: (page: number) => void;
   loading: boolean;
 }
 
-export const LibraryPageControls: FC<ILibraryPageControlsProps> = ({ page, totalPages, onNavigate, loading }) => {
+export const PaginationControl: FC<IPaginationControlProps> = ({ page, totalPages, onNavigate, loading }) => {
   const havePrevious: boolean = page > 1;
   const haveNext: boolean = page < totalPages;
 

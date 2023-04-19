@@ -1,23 +1,22 @@
 import { cva, VariantProps } from 'class-variance-authority';
 import React, { FC } from 'react';
-import { useAppContext } from '../../context/app-context';
+import { useAppContext } from '../../../context/app-context';
 
-const buttonClasses = cva(
+const tagClasses = cva(
   [
     // defaults
     'font-montserrat',
+    'inline-block',
     'p-1',
-    ,
     'px-2',
+    'm-1',
     'rounded-md',
-    'cursor-pointer',
-    'm-1'
-    // 'text-sm'
+    'text-sm'
   ],
   {
     variants: {
       theme: {
-        dark: ['bg-dark-detail', 'text-dark-text', 'hover:text-dark-highlight'],
+        dark: ['bg-dark-detail', 'text-dark-highlight'],
 
         light: [
           'bg-white',
@@ -42,15 +41,15 @@ const buttonClasses = cva(
   }
 );
 
-export interface IButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonClasses> {}
+export interface ITagProps extends React.HTMLAttributes<HTMLSpanElement>, VariantProps<typeof tagClasses> {
+  tag: string;
+}
 
-export const Button: FC<IButtonProps> = ({ children, className, ...props }) => {
+export const Tag: FC<ITagProps> = ({ tag, className, ...props }) => {
   const { theme } = useAppContext();
   return (
-    <button className={buttonClasses({ theme, className })} {...props}>
-      {children}
-    </button>
+    <span className={tagClasses({ theme, className })} {...props}>
+      {tag}
+    </span>
   );
 };

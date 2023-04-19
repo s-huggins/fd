@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import React, { FC } from 'react';
-import { CreatedAtSortOrder } from '../../gql/graphql';
+import { CreatedAtSortOrder } from '../../../gql/graphql';
 
 interface ISortOrderControlProps {
   sortOrder: CreatedAtSortOrder;

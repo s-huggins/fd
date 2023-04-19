@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import { useAppContext } from '../../context/app-context';
-import { ISummary } from '../../context/summary.interface';
+import { useAppContext } from '../../../context/app-context';
+import { ISummary } from '../../../context/summary.interface';
 import { LibrarySummary } from './library-summary';
 
 interface ILibrarySummaryListProps {

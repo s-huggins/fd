@@ -1,22 +1,19 @@
 import { cva, VariantProps } from 'class-variance-authority';
 import React, { FC } from 'react';
-import { useAppContext } from '../../context/app-context';
+import { useAppContext } from '../../../context/app-context';
 
-const tagClasses = cva(
+const headingClasses = cva(
   [
     // defaults
     'font-montserrat',
-    'inline-block',
-    'p-1',
-    'px-2',
-    'm-1',
-    'rounded-md',
-    'text-sm'
+    'text-4xl',
+    'mb-2'
+    // 'text-sm'
   ],
   {
     variants: {
       theme: {
-        dark: ['bg-dark-detail', 'text-dark-highlight'],
+        dark: ['text-dark-highlight'],
 
         light: [
           'bg-white',
@@ -41,15 +38,15 @@ const tagClasses = cva(
   }
 );
 
-export interface ITagProps extends React.HTMLAttributes<HTMLSpanElement>, VariantProps<typeof tagClasses> {
-  tag: string;
-}
+export interface IHeadingProps
+  extends React.ButtonHTMLAttributes<HTMLHeadingElement>,
+    VariantProps<typeof headingClasses> {}
 
-export const Tag: FC<ITagProps> = ({ tag, className, ...props }) => {
+export const Heading: FC<IHeadingProps> = ({ children, className, ...props }) => {
   const { theme } = useAppContext();
   return (
-    <span className={tagClasses({ theme, className })} {...props}>
-      {tag}
-    </span>
+    <h1 className={headingClasses({ theme, className })} {...props}>
+      {children}
+    </h1>
   );
 };

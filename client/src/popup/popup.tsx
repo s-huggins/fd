@@ -6,7 +6,7 @@ import { AppContext, AppContextProvider } from '../context/app-context';
 import client from '../graphql/apollo';
 import { ExtensionHeader } from './components/extension-header';
 import { ExtensionToggle } from './components/extension-toggle';
-import { Library } from './components/library';
+import { Library } from './components/library/library';
 import './popup.css';
 
 const popupClasses = cva(

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import { TagList } from './common/tag-list';
-import { Text } from './common/text';
+import { Text } from './common/elements/text';
+import { TagList } from './common/tags/tag-list';
 
 export interface ISummaryProps {
   content: string;

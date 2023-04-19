@@ -1,19 +1,23 @@
 import { cva, VariantProps } from 'class-variance-authority';
 import React, { FC } from 'react';
-import { useAppContext } from '../../context/app-context';
+import { useAppContext } from '../../../context/app-context';
 
-const headingClasses = cva(
+const buttonClasses = cva(
   [
     // defaults
     'font-montserrat',
-    'text-4xl',
-    'mb-2'
+    'p-1',
+    ,
+    'px-2',
+    'rounded-md',
+    'cursor-pointer',
+    'm-1'
     // 'text-sm'
   ],
   {
     variants: {
       theme: {
-        dark: ['text-dark-highlight'],
+        dark: ['bg-dark-detail', 'text-dark-text', 'hover:text-dark-highlight'],
 
         light: [
           'bg-white',
@@ -38,15 +42,15 @@ const headingClasses = cva(
   }
 );
 
-export interface IHeadingProps
-  extends React.ButtonHTMLAttributes<HTMLHeadingElement>,
-    VariantProps<typeof headingClasses> {}
+export interface IButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonClasses> {}
 
-export const Heading: FC<IHeadingProps> = ({ children, className, ...props }) => {
+export const Button: FC<IButtonProps> = ({ children, className, ...props }) => {
   const { theme } = useAppContext();
   return (
-    <h1 className={headingClasses({ theme, className })} {...props}>
+    <button className={buttonClasses({ theme, className })} {...props}>
       {children}
-    </h1>
+    </button>
   );
 };

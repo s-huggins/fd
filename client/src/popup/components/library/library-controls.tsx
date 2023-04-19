@@ -1,10 +1,10 @@
 import React, { FC, useState } from 'react';
-import { TextInput } from '../../components/common/text-input';
-import { useAppContext } from '../../context/app-context';
-import { ILibraryPerspective } from '../../context/app-context.interface';
-import { CreatedAtSortOrder } from '../../gql/graphql';
-import { SortOrderControl } from './sort-order-control';
-import { TagFilterList } from './tag-filter-list';
+import { SortOrderControl } from '../../../components/common/controls/sort-order-control';
+import { TextInput } from '../../../components/common/elements/text-input';
+import { TagFilterList } from '../../../components/common/tags/tag-filter-list';
+import { useAppContext } from '../../../context/app-context';
+import { ILibraryPerspective } from '../../../context/app-context.interface';
+import { CreatedAtSortOrder } from '../../../gql/graphql';
 
 const incrementer = (function* () {
   let id: number = 1;
@@ -22,7 +22,7 @@ export interface IActiveTagFilter {
   id: number;
 }
 
-export const ListControls: FC = () => {
+export const LibraryControls: FC = () => {
   const [tagFilterInput, setTagFilterInput] = useState<string>('');
 
   const {

@@ -1,8 +1,8 @@
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { FC } from 'react';
-import { Text } from '../../components/common/text';
-import { Colours } from '../../lib/colours';
+import { Text } from '../../../components/common/elements/text';
+import { Colours } from '../../../lib/colours';
 
 export interface ISummaryHighlightProps {
   highlightedText: string;

@@ -1,6 +1,6 @@
 import { cva, VariantProps } from 'class-variance-authority';
 import React, { FC } from 'react';
-import { Button } from '../../components/common/button';
+import { Button } from '../../components/common/elements/button';
 import { FDIcon } from '../../components/common/fd-icon';
 import { useAppContext } from '../../context/app-context';
 
