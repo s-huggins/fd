@@ -12,6 +12,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
+  DateTime: any;
 };
 
 export enum CreatedAtSortOrder {
@@ -83,7 +85,7 @@ export type SaveSummaryInput = {
 export type SaveSummaryOutput = {
   __typename?: 'SaveSummaryOutput';
   content: Scalars['String'];
-  createdAt: Scalars['String'];
+  createdAt: Scalars['DateTime'];
   highlightedText: Scalars['String'];
   id: Scalars['String'];
   tags: Array<Scalars['String']>;
@@ -92,7 +94,7 @@ export type SaveSummaryOutput = {
 export type SummaryDto = {
   __typename?: 'SummaryDto';
   content: Scalars['String'];
-  createdAt: Scalars['String'];
+  createdAt: Scalars['DateTime'];
   highlightedText: Scalars['String'];
   id: Scalars['String'];
   tags: Array<Scalars['String']>;
@@ -116,7 +118,7 @@ export type SaveSummaryMutationVariables = Exact<{
 }>;
 
 
-export type SaveSummaryMutation = { __typename?: 'Mutation', saveSummary: { __typename?: 'SaveSummaryOutput', id: string, content: string, tags: Array<string>, createdAt: string } };
+export type SaveSummaryMutation = { __typename?: 'Mutation', saveSummary: { __typename?: 'SaveSummaryOutput', id: string, content: string, tags: Array<string>, createdAt: any } };
 
 export type RequestSummaryQueryVariables = Exact<{
   queryInput: RequestSummaryInput;
@@ -137,7 +139,7 @@ export type GetSummariesQueryVariables = Exact<{
 }>;
 
 
-export type GetSummariesQuery = { __typename?: 'Query', summaries: { __typename?: 'SummaryQueryOutput', pagination: { __typename?: 'PaginationFields', totalPages: number }, data: Array<{ __typename?: 'SummaryDto', id: string, content: string, tags: Array<string>, highlightedText: string, createdAt: string }> } };
+export type GetSummariesQuery = { __typename?: 'Query', summaries: { __typename?: 'SummaryQueryOutput', pagination: { __typename?: 'PaginationFields', totalPages: number }, data: Array<{ __typename?: 'SummaryDto', id: string, content: string, tags: Array<string>, highlightedText: string, createdAt: any }> } };
 
 
 export const SaveSummaryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SaveSummary"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"saveSummaryInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"SaveSummaryInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"saveSummary"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"saveSummaryInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"tags"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]} as unknown as DocumentNode<SaveSummaryMutation, SaveSummaryMutationVariables>;
