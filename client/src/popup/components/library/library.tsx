@@ -121,6 +121,7 @@ export const Library: FC<ILibraryProps> = () => {
   }, [sortOrder, tagFilters, page]);
 
   const availableSummaries = data?.summaries?.data?.map(fromDto) ?? summaries;
+
   let libraryPageContent: ReactNode = null;
   if (availableSummaries) {
     libraryPageContent = (
@@ -131,7 +132,7 @@ export const Library: FC<ILibraryProps> = () => {
           className="justify-self-end"
           page={page}
           loading={loading}
-          totalPages={totalPagesRef.current}
+          totalPages={data ? data.summaries.pagination.totalPages : 1}
           onNavigate={navigateToPage}
         />
       </div>

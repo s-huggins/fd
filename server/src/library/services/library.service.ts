@@ -33,6 +33,8 @@ export class LibraryService {
       });
     }
 
+    const countQuery = this._summaryModel.find().merge(query).count();
+
     query = query
       .sort({
         createdAt: summaryQueryInput.createdAtSortOrder
@@ -41,7 +43,7 @@ export class LibraryService {
       .limit(summaryQueryInput.itemsPerPage);
 
     const summaries: Summary[] = await query.exec();
-    const totalPageCount: number = await this.getTotalPagesCount(summaryQueryInput.itemsPerPage);
+    const totalPageCount: number = await countQuery.exec();
 
     return {
       data: summaries,
@@ -60,11 +62,6 @@ export class LibraryService {
   public async deleteSummary(deleteSummaryInput: DeleteSummaryInput): Promise<boolean> {
     await this._summaryModel.deleteOne({ _id: new Types.ObjectId(deleteSummaryInput.id) });
     return true;
-  }
-
-  private async getTotalPagesCount(itemsPerPage: number): Promise<number> {
-    const totalCount: number = await this.getTotalSummariesCount();
-    return Math.ceil(totalCount / itemsPerPage);
   }
 
   private getTotalSummariesCount(): Promise<number> {
