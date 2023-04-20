@@ -1,11 +1,24 @@
-import { SummaryDto, SummaryQueryInput } from '../../../../gql/graphql';
+import { DocumentNode } from 'graphql';
+import { GetSummariesQueryVariables, SummaryDto, SummaryQueryInput, SummaryQueryOutput } from '../../../../gql/graphql';
 import { GET_SUMMARIES_QUERY } from '../library';
 
-export const createQueryOutputMock = (
+export interface ILibraryQueryMock {
+  request: {
+    query: DocumentNode;
+    variables: GetSummariesQueryVariables;
+  };
+  result: {
+    data: {
+      summaries: SummaryQueryOutput;
+    };
+  };
+}
+
+export const createLibraryQueryMock = (
   inputVariables: SummaryQueryInput,
   outputData: SummaryDto[],
   totalPages: number = 1
-) => {
+): ILibraryQueryMock => {
   return {
     request: {
       query: GET_SUMMARIES_QUERY,
@@ -23,5 +36,5 @@ export const createQueryOutputMock = (
         }
       }
     }
-  };
+  } as ILibraryQueryMock;
 };
