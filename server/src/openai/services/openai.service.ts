@@ -30,7 +30,6 @@ export class OpenAIService {
     try {
       const request: CreateChatCompletionRequest = this.makeChatRequest(summaryRequest.text);
       const response = await this._api.createChatCompletion(request);
-      console.log(response.status.toString());
       const responseOk: boolean = response.status.toString().startsWith('2');
       if (!responseOk) {
         throw new Error('Not OK');
@@ -38,7 +37,7 @@ export class OpenAIService {
       const summary: OpenAISummary = this.extractSummary(response.data);
       return summary;
     } catch (err) {
-      // console.log(err);
+      console.error(err);
       throw new Error('Failed to get AI summary');
     }
   }

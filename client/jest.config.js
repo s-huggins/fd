@@ -1,3 +1,5 @@
+const chrome = require('sinon-chrome/extensions');
+
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
@@ -11,8 +13,10 @@ module.exports = {
     '^.+\\.ts?$': 'ts-jest',
     '^.+\\.tsx?$': 'ts-jest'
   },
-
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy'
+  },
+  globals: {
+    chrome
   }
 };

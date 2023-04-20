@@ -77,7 +77,12 @@ export const LibraryControls: FC = () => {
             onKeyDown={handleEnterKey}
             data-testid="tag-filter-input"
           />
-          <FontAwesomeIcon icon={faPlus} size="lg" className="dark-text-highlight cursor-pointer" onClick={addTag} />
+          <FontAwesomeIcon
+            icon={faPlus}
+            size="lg"
+            className="dark-text-highlight cursor-pointer hover:text-dark-highlight ease-out duration-300"
+            onClick={addTag}
+          />
         </div>
         <SortOrderControl sortOrder={sortOrder} onSortOrderChanged={onSortOrderChanged} />
       </div>

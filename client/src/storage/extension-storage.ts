@@ -1,4 +1,4 @@
-export class Storage {
+export class ExtensionStorage {
   public static get<T>(key: string): Promise<T> {
     const promise = new Promise<T>((resolve, reject) => {
       chrome.storage.sync.get([key], response => {

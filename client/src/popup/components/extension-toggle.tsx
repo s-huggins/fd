@@ -2,16 +2,16 @@ import clsx from 'clsx';
 import React, { FC } from 'react';
 import { ToggleExtensionCommand } from '../../common/messages/commands/toggle-extension-command';
 import { Switch } from '../../components/common/switch';
-import { useAppContext } from '../../context/app-context';
+import { useExtensionContext } from '../../context/extension-context';
 import { useMessenger } from '../../hooks/useMessenger';
 
 export interface IExtensionToggleProps extends React.HTMLAttributes<HTMLLabelElement> {}
 
 export const ExtensionToggle: FC<IExtensionToggleProps> = ({ className }) => {
-  const { extensionActive, setExtensionActive } = useAppContext();
+  const { extensionEnabled, enableExtension, disableExtension } = useExtensionContext();
   const { sendMessage } = useMessenger();
   const handleExtensionToggled = (extensionActive: boolean) => {
-    setExtensionActive(extensionActive);
+    extensionActive ? enableExtension() : disableExtension();
     sendMessage(new ToggleExtensionCommand(extensionActive));
   };
 
@@ -20,12 +20,12 @@ export const ExtensionToggle: FC<IExtensionToggleProps> = ({ className }) => {
       <span
         className={clsx(
           'w-20 pr-2 inline-block flex justify-center items-center cursor-pointer',
-          extensionActive && 'text-dark-highlight'
+          extensionEnabled && 'text-dark-highlight'
         )}
       >
-        {extensionActive ? 'Enabled' : 'Disabled'}
+        {extensionEnabled ? 'Enabled' : 'Disabled'}
       </span>
-      <Switch checked={extensionActive} onToggle={handleExtensionToggled} />
+      <Switch checked={extensionEnabled} onToggle={handleExtensionToggled} />
     </label>
   );
 };

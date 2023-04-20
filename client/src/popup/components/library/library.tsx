@@ -96,6 +96,7 @@ export const Library: FC<ILibraryProps> = () => {
   const [refetch, { loading, error, data }] = useLazyQuery<GetSummariesQuery, GetSummariesQueryVariables>(
     GET_SUMMARIES_QUERY,
     {
+      fetchPolicy: 'network-only',
       variables: getSearchQueryVariables(),
       onCompleted: (queryResponse: GetSummariesQuery) => {
         setActionInFlight(false);
@@ -125,12 +126,7 @@ export const Library: FC<ILibraryProps> = () => {
     libraryPageContent = (
       <div className="flex flex-col grow">
         <LibraryControls />
-        <LibrarySummaryList
-          summaries={availableSummaries}
-          onSummaryDeleted={onSummaryDeleted}
-          className="grow"
-          data-test-loading={loading}
-        />
+        <LibrarySummaryList summaries={availableSummaries} onSummaryDeleted={onSummaryDeleted} className="grow" />
         <PaginationControl
           className="justify-self-end"
           page={page}

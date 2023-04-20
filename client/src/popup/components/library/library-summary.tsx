@@ -40,7 +40,9 @@ export const LibrarySummary: FC<ILibrarySummaryProps> = ({
     DeleteSummaryMutation,
     DeleteSummaryMutationVariables
   >(DELETE_SUMMARY_MUTATION, {
-    onCompleted: () => onSummaryDeleted()
+    onCompleted: () => {
+      onSummaryDeleted();
+    }
   });
 
   const handleDeleteSummary = () => {

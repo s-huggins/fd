@@ -31,7 +31,6 @@ export interface ILibraryContext {
 export interface IAppContext {
   theme: AppThemeEnum;
   setTheme: (theme: AppThemeEnum) => void;
-  extensionActive: boolean;
   actionInFlight: boolean;
   setActionInFlight: (inFlight: boolean) => void;
   tooltipOpen: boolean;
@@ -40,8 +39,6 @@ export interface IAppContext {
   closeTooltip: () => void;
   highlightedText: string;
   setHighlightedText: (text: string) => void;
-  setExtensionActive: (enabled: boolean) => void;
-  hydrated: boolean;
   loadedTooltipSummary: ITooltipLoadedSummary;
   saveLoadedSummary: () => void;
   loadSummary: (summary: RequestSummaryQuery) => void;
