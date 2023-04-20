@@ -13,11 +13,11 @@ interface ITagFilterList {
 export const TagFilterList: FC<ITagFilterList> = ({ tagFilters, onTagFilterRemoved }) => {
   const renderer = (tagFilter: IActiveTagFilter) => (
     <>
-      <Tag tag={tagFilter.tag} className="pr-5" />
+      <Tag tag={tagFilter.tag} className="pr-5 mx-[-2px]" />
       <FontAwesomeIcon
         icon={faXmark}
         className="cursor-pointer"
-        style={{ transform: `translate(-20px, 1px)` }}
+        style={{ transform: `translate(-14px, 1px)` }}
         onClick={() => onTagFilterRemoved(tagFilter.id)}
       />
     </>

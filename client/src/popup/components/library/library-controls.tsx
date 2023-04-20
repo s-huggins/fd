@@ -1,3 +1,5 @@
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { FC, useState } from 'react';
 import { SortOrderControl } from '../../../components/common/controls/sort-order-control';
 import { TextInput } from '../../../components/common/elements/text-input';
@@ -44,7 +46,13 @@ export const LibraryControls: FC = () => {
   };
 
   const handleEnterKey = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.code === 'Enter' && tagFilterInput) {
+    if (event.code === 'Enter') {
+      addTag();
+    }
+  };
+
+  const addTag = () => {
+    if (tagFilterInput) {
       const newTagFilter: IActiveTagFilter = { tag: tagFilterInput, id: getNextTagFilterId() };
       const newTagFilters: IActiveTagFilter[] = [...tagFilters, newTagFilter];
       setTagFilterInput('');
@@ -59,14 +67,18 @@ export const LibraryControls: FC = () => {
   return (
     <div className="flex flex-col mb-4">
       <div className="flex justify-around items-center mb-2">
-        <TextInput
-          placeholder="Apply tag filters"
-          id="tag-filter-input"
-          className="w-44"
-          value={tagFilterInput}
-          onChange={handleFilterInputChange}
-          onKeyDown={handleEnterKey}
-        />
+        <div>
+          <TextInput
+            placeholder="Apply tag filters"
+            id="tag-filter-input"
+            className="w-44"
+            value={tagFilterInput}
+            onChange={handleFilterInputChange}
+            onKeyDown={handleEnterKey}
+            data-testid="tag-filter-input"
+          />
+          <FontAwesomeIcon icon={faPlus} size="lg" className="dark-text-highlight cursor-pointer" onClick={addTag} />
+        </div>
         <SortOrderControl sortOrder={sortOrder} onSortOrderChanged={onSortOrderChanged} />
       </div>
       <TagFilterList tagFilters={tagFilters} onTagFilterRemoved={handleRemoveTagFilter} />

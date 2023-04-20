@@ -12,7 +12,10 @@ import './popup.css';
 const popupClasses = cva(
   [
     // defaults
+    'flex',
+    'flex-col',
     'w-[600px]',
+    'h-[600px]',
     'font-montserrat',
     'p-4',
     'overflow-y-auto',
@@ -54,7 +57,7 @@ export const App: React.FC<{}> = () => {
     <div className={popupClasses({ theme })}>
       <ExtensionHeader className="mb-2" />
       {hydrated && (
-        <div>
+        <div className="grow flex flex-col">
           <ExtensionToggle className="mb-3" />
           <Library />
         </div>

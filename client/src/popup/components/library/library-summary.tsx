@@ -52,7 +52,7 @@ export const LibrarySummary: FC<ILibrarySummaryProps> = ({
       <SummaryHighlight highlightedText={highlightedText} />
       <Summary content={content} tags={tags} />
       <div className="flex justify-end">
-        <Timestamp timestamp={createdAt} />
+        <Timestamp timestamp={createdAt} data-testid="createdAt" />
       </div>
       <FontAwesomeIcon
         icon={faDeleteLeft}

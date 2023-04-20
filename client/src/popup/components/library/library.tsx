@@ -120,16 +120,17 @@ export const Library: FC<ILibraryProps> = () => {
   let libraryPageContent: ReactNode = null;
   if (availableSummaries) {
     libraryPageContent = (
-      <>
+      <div className="flex flex-col grow">
         <LibraryControls />
-        <LibrarySummaryList summaries={availableSummaries} onSummaryDeleted={onSummaryDeleted} />
+        <LibrarySummaryList summaries={availableSummaries} onSummaryDeleted={onSummaryDeleted} className="grow" />
         <PaginationControl
+          className="justify-self-end"
           page={page}
           loading={loading}
           totalPages={totalPagesRef.current}
           onNavigate={navigateToPage}
         />
-      </>
+      </div>
     );
   } else if (loading) {
     libraryPageContent = <p>Loading...</p>;
