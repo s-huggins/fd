@@ -10,7 +10,9 @@ export interface ISummaryProps {
 export const Summary: FC<ISummaryProps> = ({ content: detail, tags }) => {
   return (
     <div>
-      <Text className="mb-2">{detail}</Text>
+      <Text className="mb-2" data-testid="summary-content">
+        {detail}
+      </Text>
       <TagList tags={tags} />
     </div>
   );

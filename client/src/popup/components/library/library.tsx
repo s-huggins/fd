@@ -77,6 +77,7 @@ const fromDto = (summaryDto: SummaryDto): ISummary => {
 export const Library: FC<ILibraryProps> = () => {
   const {
     theme,
+    setActionInFlight,
     libraryContext: { setSummaries },
     libraryContext: {
       summaries,
@@ -97,6 +98,7 @@ export const Library: FC<ILibraryProps> = () => {
     {
       variables: getSearchQueryVariables(),
       onCompleted: (queryResponse: GetSummariesQuery) => {
+        setActionInFlight(false);
         setSummaries(queryResponse.summaries.data.map(fromDto));
         totalPagesRef.current = queryResponse.summaries.pagination.totalPages;
         window.scrollTo(0, 0);
@@ -113,6 +115,7 @@ export const Library: FC<ILibraryProps> = () => {
   };
 
   useEffect(() => {
+    setActionInFlight(true);
     refetch({ variables: getSearchQueryVariables() });
   }, [sortOrder, tagFilters, page]);
 
@@ -122,7 +125,12 @@ export const Library: FC<ILibraryProps> = () => {
     libraryPageContent = (
       <div className="flex flex-col grow">
         <LibraryControls />
-        <LibrarySummaryList summaries={availableSummaries} onSummaryDeleted={onSummaryDeleted} className="grow" />
+        <LibrarySummaryList
+          summaries={availableSummaries}
+          onSummaryDeleted={onSummaryDeleted}
+          className="grow"
+          data-test-loading={loading}
+        />
         <PaginationControl
           className="justify-self-end"
           page={page}

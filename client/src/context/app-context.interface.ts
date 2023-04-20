@@ -32,6 +32,8 @@ export interface IAppContext {
   theme: AppThemeEnum;
   setTheme: (theme: AppThemeEnum) => void;
   extensionActive: boolean;
+  actionInFlight: boolean;
+  setActionInFlight: (inFlight: boolean) => void;
   tooltipOpen: boolean;
   setTooltipOpen: (open: boolean) => void;
   openTooltip: () => void;

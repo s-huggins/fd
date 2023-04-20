@@ -17,6 +17,8 @@ const DEFAULT_APP_CONTEXT: IAppContext = {
   setExtensionActive: (active: boolean) => {},
   highlightedText: null,
   setHighlightedText: (text: string) => {},
+  actionInFlight: false,
+  setActionInFlight: (actionInFlight: boolean) => {},
   libraryContext: {
     summaries: [],
     setSummaries: (summaries: ISummary[]) => {},
@@ -40,7 +42,8 @@ export const AppContext = createContext(DEFAULT_APP_CONTEXT);
 
 export const AppContextProvider: FC = ({ children }) => {
   const [theme, setTheme] = useState<AppThemeEnum>(DEFAULT_APP_CONTEXT.theme);
-  const [active, setActive] = useState<boolean>(DEFAULT_APP_CONTEXT.extensionActive);
+  const [frontdoorEnabled, setFrontdoorEnabled] = useState<boolean>(DEFAULT_APP_CONTEXT.extensionActive);
+  const [actionInFlight, setActionInFlight] = useState<boolean>(DEFAULT_APP_CONTEXT.actionInFlight);
   const [tooltipOpen, setTooltipOpen] = useState<boolean>(DEFAULT_APP_CONTEXT.tooltipOpen);
   const [hydrated, setHydrated] = useState<boolean>(DEFAULT_APP_CONTEXT.hydrated);
   const [loadedSummary, setLoadedSummary] = useState<ITooltipLoadedSummary>(DEFAULT_APP_CONTEXT.loadedTooltipSummary);
@@ -51,7 +54,7 @@ export const AppContextProvider: FC = ({ children }) => {
   );
 
   const setExtensionActive = (active: boolean) => {
-    setActive(active);
+    setFrontdoorEnabled(active);
     Storage.set(EXTENSION_ENABLED_KEY, active);
   };
 
@@ -68,7 +71,7 @@ export const AppContextProvider: FC = ({ children }) => {
 
   const hydrateFromStorage = async () => {
     const extensionEnabled: boolean = await Storage.get(EXTENSION_ENABLED_KEY);
-    setActive(extensionEnabled);
+    setFrontdoorEnabled(extensionEnabled);
     setHydrated(true);
   };
 
@@ -89,8 +92,10 @@ export const AppContextProvider: FC = ({ children }) => {
   const context: IAppContext = {
     theme,
     setTheme,
-    extensionActive: active,
+    extensionActive: frontdoorEnabled,
     setExtensionActive,
+    actionInFlight,
+    setActionInFlight,
     libraryContext: {
       setSummaries: setLibrarySummaries,
       summaries: librarySummaries,

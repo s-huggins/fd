@@ -2,6 +2,7 @@ import { ApolloProvider } from '@apollo/client';
 import { cva } from 'class-variance-authority';
 import React, { useContext } from 'react';
 import ReactDOM from 'react-dom/client';
+import { ProgressBar } from '../components/common/progress-bar';
 import { AppContext, AppContextProvider } from '../context/app-context';
 import client from '../graphql/apollo';
 import { ExtensionHeader } from './components/extension-header';
@@ -51,10 +52,11 @@ const popupClasses = cva(
 );
 
 export const App: React.FC<{}> = () => {
-  const { theme, hydrated } = useContext(AppContext);
+  const { theme, hydrated, actionInFlight } = useContext(AppContext);
 
   return (
     <div className={popupClasses({ theme })}>
+      <ProgressBar loading={actionInFlight} />
       <ExtensionHeader className="mb-2" />
       {hydrated && (
         <div className="grow flex flex-col">
