@@ -2,16 +2,16 @@ import { faMoon, faSun } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { Switch } from '../../components/common/switch';
-import { useAppContext } from '../../context/app-context';
 import { AppThemeEnum } from '../../context/app-theme.enum';
+import { useExtensionContext } from '../../context/extension-context';
 
 export const ThemeToggle = () => {
-  const { theme, setTheme } = useAppContext();
-  const darkModeActive: boolean = theme === AppThemeEnum.Dark;
+  const { theme: extensionTheme, setTheme: setExtensionTheme } = useExtensionContext();
+  const darkModeActive: boolean = extensionTheme === AppThemeEnum.Dark;
 
   const onToggleTheme = (toggleStatus: boolean) => {
-    const updatedTheme: AppThemeEnum = toggleStatus ? AppThemeEnum.Dark : AppThemeEnum.Light;
-    setTheme(updatedTheme);
+    const newTheme: AppThemeEnum = toggleStatus ? AppThemeEnum.Dark : AppThemeEnum.Light;
+    setExtensionTheme(newTheme);
   };
 
   return (

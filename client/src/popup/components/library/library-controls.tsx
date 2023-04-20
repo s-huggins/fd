@@ -1,11 +1,13 @@
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import clsx from 'clsx';
 import React, { FC, useState } from 'react';
 import { SortOrderControl } from '../../../components/common/controls/sort-order-control';
 import { TextInput } from '../../../components/common/elements/text-input';
 import { TagFilterList } from '../../../components/common/tags/tag-filter-list';
 import { useAppContext } from '../../../context/app-context';
 import { ILibraryPerspective } from '../../../context/app-context.interface';
+import { useExtensionContext } from '../../../context/extension-context';
 import { CreatedAtSortOrder } from '../../../gql/graphql';
 
 const incrementer = (function* () {
@@ -26,7 +28,7 @@ export interface IActiveTagFilter {
 
 export const LibraryControls: FC = () => {
   const [tagFilterInput, setTagFilterInput] = useState<string>('');
-
+  const { getIsDark } = useExtensionContext();
   const {
     libraryContext: {
       perspective: { sortOrder, tagFilters, page },
@@ -80,7 +82,10 @@ export const LibraryControls: FC = () => {
           <FontAwesomeIcon
             icon={faPlus}
             size="lg"
-            className="dark-text-highlight cursor-pointer hover:text-dark-highlight ease-out duration-300"
+            className={clsx(
+              'cursor-pointer ease-out duration-300',
+              getIsDark() ? 'hover:text-dark-highlight' : 'hover:text-light-highlight'
+            )}
             onClick={addTag}
           />
         </div>

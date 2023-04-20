@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { DeleteSummaryInput } from '../dtos/delete-summary-input.dto';
 import { SaveSummaryInput } from '../dtos/save-summary.dto';
-import { SummaryQueryInput } from '../dtos/summary-query-input.dto';
+import { SortOrderEnum, SummaryQueryInput } from '../dtos/summary-query-input.dto';
 import { SummaryQueryOutput } from '../dtos/summary-query-output.dto';
 import { Summary } from '../models/summary';
 
@@ -22,12 +22,14 @@ export class LibraryService {
   }
 
   public async getSummaries(summaryQueryInput: SummaryQueryInput): Promise<SummaryQueryOutput> {
+    const sanitizedInput: SummaryQueryInput = this.sanitizeQuery(summaryQueryInput);
+
     let query = this._summaryModel.find();
 
     const caseInsensitiveFilter: RegExp[] = summaryQueryInput.tagFilters.map(
       (tagFilter: string) => new RegExp(`^${tagFilter}$`, 'i')
     );
-    if (summaryQueryInput.tagFilters.length) {
+    if (sanitizedInput.tagFilters.length) {
       query = query.where({
         tags: { $all: caseInsensitiveFilter }
       });
@@ -37,19 +39,20 @@ export class LibraryService {
 
     query = query
       .sort({
-        createdAt: summaryQueryInput.createdAtSortOrder
+        createdAt: sanitizedInput.createdAtSortOrder
       })
-      .skip((summaryQueryInput.page - 1) * summaryQueryInput.itemsPerPage)
-      .limit(summaryQueryInput.itemsPerPage);
+      .skip((sanitizedInput.page - 1) * sanitizedInput.itemsPerPage)
+      .limit(sanitizedInput.itemsPerPage);
 
     const summaries: Summary[] = await query.exec();
-    const totalPageCount: number = await countQuery.exec();
+    const totalSummariesCount: number = await countQuery.exec();
+    const totalPageCount: number = Math.ceil(totalSummariesCount / sanitizedInput.itemsPerPage);
 
     return {
       data: summaries,
       pagination: {
-        page: summaryQueryInput.page,
-        itemsPerPage: summaryQueryInput.itemsPerPage,
+        page: sanitizedInput.page,
+        itemsPerPage: sanitizedInput.itemsPerPage,
         totalPages: totalPageCount
       }
     };
@@ -64,7 +67,15 @@ export class LibraryService {
     return true;
   }
 
-  private getTotalSummariesCount(): Promise<number> {
-    return this._summaryModel.count();
+  private sanitizeQuery(summaryQuery: SummaryQueryInput): SummaryQueryInput {
+    const sanitized: SummaryQueryInput = { ...summaryQuery };
+    sanitized.createdAtSortOrder ??= SortOrderEnum.NewestFirst;
+    sanitized.tagFilters ??= [];
+    sanitized.page ??= 1;
+    sanitized.itemsPerPage ??= 10;
+    if (sanitized.itemsPerPage === 0) {
+      sanitized.itemsPerPage = 10;
+    }
+    return sanitized;
   }
 }

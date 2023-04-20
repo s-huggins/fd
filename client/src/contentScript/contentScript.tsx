@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import { OpenTooltipCommand } from '../common/messages/commands/open-tooltip-command';
 import { Message } from '../common/messages/message';
 import { AppContextProvider, useAppContext } from '../context/app-context';
+import { ExtensionContextProvider } from '../context/extension-context';
 import { RequestSummaryQuery, RequestSummaryQueryVariables } from '../gql/graphql';
 import client from '../graphql/apollo';
 import { useMessenger } from '../hooks/useMessenger';
@@ -42,7 +43,7 @@ const App: React.FC<{}> = () => {
     fetchSummary({ variables: { queryInput: { text: tooltipMessage.selectionText } } });
   };
 
-  useMessenger(handleTooltipRequested, OpenTooltipCommand.isOpenTooltipCommand);
+  useMessenger<OpenTooltipCommand>(handleTooltipRequested, OpenTooltipCommand.isOpenTooltipCommand);
 
   return (
     <Tooltip>
@@ -59,9 +60,11 @@ document.body.appendChild(rootElement);
 
 const root = ReactDOM.createRoot(rootElement);
 root.render(
-  <AppContextProvider>
-    <ApolloProvider client={client}>
-      <App />
-    </ApolloProvider>
-  </AppContextProvider>
+  <ExtensionContextProvider>
+    <AppContextProvider>
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
+    </AppContextProvider>
+  </ExtensionContextProvider>
 );

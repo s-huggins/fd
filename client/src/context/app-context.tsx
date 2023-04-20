@@ -1,12 +1,9 @@
 import React, { FC, createContext, useContext, useState } from 'react';
 import { CreatedAtSortOrder, RequestSummaryQuery } from '../gql/graphql';
 import { IAppContext, ILibraryPerspective, ITooltipLoadedSummary } from './app-context.interface';
-import { AppThemeEnum } from './app-theme.enum';
 import { ISummary } from './summary.interface';
 
 const DEFAULT_APP_CONTEXT: IAppContext = {
-  theme: AppThemeEnum.Dark,
-  setTheme: (theme: AppThemeEnum) => {},
   tooltipOpen: false,
   setTooltipOpen: (open: boolean) => {},
   openTooltip: () => {},
@@ -36,7 +33,6 @@ const DEFAULT_APP_CONTEXT: IAppContext = {
 export const AppContext = createContext(DEFAULT_APP_CONTEXT);
 
 export const AppContextProvider: FC = ({ children }) => {
-  const [theme, setTheme] = useState<AppThemeEnum>(DEFAULT_APP_CONTEXT.theme);
   const [actionInFlight, setActionInFlight] = useState<boolean>(DEFAULT_APP_CONTEXT.actionInFlight);
   const [tooltipOpen, setTooltipOpen] = useState<boolean>(DEFAULT_APP_CONTEXT.tooltipOpen);
   const [loadedSummary, setLoadedSummary] = useState<ITooltipLoadedSummary>(DEFAULT_APP_CONTEXT.loadedTooltipSummary);
@@ -65,11 +61,7 @@ export const AppContextProvider: FC = ({ children }) => {
     setTooltipOpen(false);
   };
 
-  // TODO: add state setters
-  // TODO: use redux pattern (useReducer)
   const context: IAppContext = {
-    theme,
-    setTheme,
     actionInFlight,
     setActionInFlight,
     libraryContext: {

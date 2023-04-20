@@ -1,6 +1,6 @@
 import { cva, VariantProps } from 'class-variance-authority';
 import React, { FC } from 'react';
-import { useAppContext } from '../../../context/app-context';
+import { useExtensionContext } from '../../../context/extension-context';
 
 const hrClasses = cva(['my-3', 'h-px', 'border-none'], {
   variants: {
@@ -31,6 +31,6 @@ const hrClasses = cva(['my-3', 'h-px', 'border-none'], {
 export interface IHorizontalRuleProps extends React.HTMLAttributes<HTMLHRElement>, VariantProps<typeof hrClasses> {}
 
 export const HorizontalRule: FC<IHorizontalRuleProps> = ({ className, ...props }) => {
-  const { theme } = useAppContext();
+  const { theme } = useExtensionContext();
   return <hr className={hrClasses({ theme, className })} {...props} />;
 };

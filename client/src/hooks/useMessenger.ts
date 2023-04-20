@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { Message } from '../common/messages/message';
 
-export const useMessenger = (
-  messageHandler?: <T extends Message>(message: T) => void,
-  messageFilter?: <T extends Message>(message: T) => boolean
+export const useMessenger = <T extends Message>(
+  messageHandler?: (message: T) => void,
+  messageFilter?: (message: T) => boolean
 ) => {
   useEffect(() => {
-    const messageCallback = <T extends Message>(message: T) => {
+    const messageCallback = (message: T) => {
       if (!messageFilter || messageFilter(message)) {
         messageHandler(message);
       }
@@ -21,7 +21,7 @@ export const useMessenger = (
     };
   }, []);
 
-  const sendMessage = <T extends Message>(message: T) => {
+  const sendMessage = (message: T) => {
     chrome.runtime.sendMessage(message);
   };
 

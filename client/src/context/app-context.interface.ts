@@ -1,5 +1,4 @@
 import { CreatedAtSortOrder, RequestSummaryQuery } from '../gql/graphql';
-import { AppThemeEnum } from './app-theme.enum';
 import { ISummary } from './summary.interface';
 
 type ILoadedSummary = Omit<RequestSummaryQuery['summary'], '__typename'>;
@@ -29,8 +28,6 @@ export interface ILibraryContext {
 }
 
 export interface IAppContext {
-  theme: AppThemeEnum;
-  setTheme: (theme: AppThemeEnum) => void;
   actionInFlight: boolean;
   setActionInFlight: (inFlight: boolean) => void;
   tooltipOpen: boolean;

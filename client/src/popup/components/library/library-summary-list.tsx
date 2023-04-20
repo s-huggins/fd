@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import React, { FC } from 'react';
-import { useAppContext } from '../../../context/app-context';
+import { useExtensionContext } from '../../../context/extension-context';
 import { ISummary } from '../../../context/summary.interface';
 import { LibrarySummary } from './library-summary';
 
@@ -15,7 +15,7 @@ export const LibrarySummaryList: FC<ILibrarySummaryListProps> = ({
   className,
   ...props
 }) => {
-  const { theme } = useAppContext();
+  const { theme } = useExtensionContext();
 
   return (
     <ul className={clsx('list-none m-0 p-0', className)} {...props}>

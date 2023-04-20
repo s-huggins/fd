@@ -5,6 +5,7 @@ import { Button } from '../../components/common/elements/button';
 import { FDIcon } from '../../components/common/fd-icon';
 import { Summary } from '../../components/summary';
 import { useAppContext } from '../../context/app-context';
+import { useExtensionContext } from '../../context/extension-context';
 import { SaveSummaryMutation, SaveSummaryMutationVariables } from '../../gql/graphql';
 
 const SAVE_SUMMARY_MUTATION = gql`
@@ -20,40 +21,24 @@ const SAVE_SUMMARY_MUTATION = gql`
 
 const tooltipClasses = cva(
   [
-    // defaults
-
     'p-4',
     'z-[1000000]',
     'w-[75vw]',
     'max-w-[600px]',
-    // 'max-h-[400px]',
     'p-2',
     'overflow-y-auto',
     'text-base',
     'leading-7',
     'text-dark-text',
     'rounded-xl',
-    'shadow-dark-inner'
+    'shadow-dark-inner',
+    'border-none'
   ],
   {
     variants: {
       theme: {
         dark: ['bg-dark-main', 'text-dark-text'],
-
-        light: [
-          'bg-white',
-          'text-black',
-          'border-gray-400',
-          'hover:bg-gray-100',
-          'border-solid',
-          'border-2',
-          'border-gray-800'
-        ]
-      },
-      size: {
-        small: ['text-md', 'py-1', 'px-2'],
-        medium: ['text-lg', 'px-6', 'py-2'],
-        large: ['text-xlg', 'px-8', 'py-4']
+        light: ['bg-light-main', 'text-light-text']
       }
     },
     defaultVariants: {
@@ -67,7 +52,8 @@ export interface ITooltipSummaryProps
     VariantProps<typeof tooltipClasses> {}
 
 export const TooltipSummary: FC<ITooltipSummaryProps> = ({ className, ...props }) => {
-  const { loadedTooltipSummary: loadedSummary, saveLoadedSummary, highlightedText, theme } = useAppContext();
+  const { theme } = useExtensionContext();
+  const { loadedTooltipSummary: loadedSummary, saveLoadedSummary, highlightedText } = useAppContext();
 
   const [saveSummary, { data: savedData, loading: saveLoading, error: saveError }] = useMutation<
     SaveSummaryMutation,

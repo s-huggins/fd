@@ -4,6 +4,7 @@ import React, { FC, ReactNode, useEffect, useRef } from 'react';
 import { PaginationControl } from '../../../components/common/controls/pagination-control';
 import { useAppContext } from '../../../context/app-context';
 import { ILibraryPerspective } from '../../../context/app-context.interface';
+import { useExtensionContext } from '../../../context/extension-context';
 import { ISummary } from '../../../context/summary.interface';
 import { GetSummariesQuery, GetSummariesQueryVariables, SummaryDto } from '../../../gql/graphql';
 import { IActiveTagFilter, LibraryControls } from './library-controls';
@@ -75,8 +76,8 @@ const fromDto = (summaryDto: SummaryDto): ISummary => {
 };
 
 export const Library: FC<ILibraryProps> = () => {
+  const { theme } = useExtensionContext();
   const {
-    theme,
     setActionInFlight,
     libraryContext: { setSummaries },
     libraryContext: {

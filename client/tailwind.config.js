@@ -9,7 +9,13 @@ module.exports = {
         'dark-contrast': '#6fbbe0',
         'dark-text': '#94a3b8',
         'dark-contrast-detail': '#e5e7eb',
-        'dark-highlight': '#35b0e9'
+        'dark-highlight': '#35b0e9',
+        'light-text': '#888',
+        'light-detail': '#fff',
+        'light-highlight': '#000',
+        'light-main': '#f6f6f6',
+        'light-contrast': '#888',
+        'light-contrast-detail': '#000'
       },
       boxShadow: {
         'dark-inner': 'inset 0 0 0 1px #ffffff1a'

@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
-
-const iconUrl = chrome.runtime.getURL('assets/images/icon.png');
+import { useIcon } from '../../hooks/useIcon';
 
 export interface IFDIconProps extends React.HTMLAttributes<HTMLImageElement> {}
 
 export const FDIcon: FC<IFDIconProps> = ({ ...props }) => {
-  return <img src={iconUrl} {...props} />;
+  const iconUrl = useIcon();
+
+  return <img src={iconUrl} alt="Frontdoor icon" {...props} />;
 };
