@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
-import { useIcon } from '../../hooks/useIcon';
+import { useLibraryIconUrl } from '../../hooks/useIcon';
 
 export interface IFDIconProps extends React.HTMLAttributes<HTMLImageElement> {}
 
 export const FDIcon: FC<IFDIconProps> = ({ ...props }) => {
-  const iconUrl = useIcon();
+  const iconUrl = useLibraryIconUrl();
 
   return <img src={iconUrl} alt="Frontdoor icon" {...props} />;
 };

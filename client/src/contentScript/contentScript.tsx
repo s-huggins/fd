@@ -36,6 +36,7 @@ const App: React.FC<{}> = () => {
 
   const [errorDismissed, setErrorDismissed] = useState(true);
 
+  // handler for background.ts command to open the Frontdoor tooltip
   const handleTooltipRequested = (message: Message) => {
     const tooltipMessage: OpenTooltipCommand = message as OpenTooltipCommand;
     openTooltip();

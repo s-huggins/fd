@@ -10,7 +10,10 @@ export const iconLookup: Record<string, IconFile> = {
   [AppThemeEnum.Light]: ICON_LIGHT_FILE
 };
 
-export const useIcon = () => {
+/**
+ * @returns the resolved url for the library icon
+ */
+export const useLibraryIconUrl = () => {
   const { theme } = useExtensionContext();
   const { getImage } = useAsset();
   const iconFile: IconFile = iconLookup[theme];

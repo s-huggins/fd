@@ -1,3 +1,6 @@
+/**
+ * Central storage class for persisting extension state in Chrome
+ */
 export class ExtensionStorage {
   public static get<T>(key: string): Promise<T> {
     const promise = new Promise<T>((resolve, reject) => {

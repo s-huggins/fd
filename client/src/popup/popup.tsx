@@ -7,6 +7,10 @@ import client from '../graphql/apollo';
 import { FrontdoorPopup } from './components/frontdoor-popup';
 import './popup.css';
 
+/**
+ * This is the root component for the Library, displayed when clicking
+ * the Frontdoor extension icon in the toolbar
+ */
 export const App: React.FC<{}> = () => {
   return (
     <ExtensionContextProvider>

@@ -121,6 +121,9 @@ export const Library: FC<ILibraryProps> = () => {
     refetch({ variables: getSearchQueryVariables() });
   }, [sortOrder, tagFilters, page]);
 
+  // while a request os in flight, continue to display the previous summaries.
+  // the progressbar will indicate the query's loading state.
+  // hence prefer summaries from data, falling back on previous cached summaries during load.
   const availableSummaries = data?.summaries?.data?.map(fromDto) ?? summaries;
 
   let libraryPageContent: ReactNode = null;

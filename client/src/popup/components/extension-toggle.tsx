@@ -58,6 +58,7 @@ export const ExtensionToggle: FC<IExtensionToggleProps> = ({ className }) => {
     } else {
       await disableExtension();
     }
+    // dispatch command to background.ts to do any extension mount/teardown work (i.e. configuring the context menu)
     sendMessage(new ToggleExtensionCommand(extensionActive));
   };
 

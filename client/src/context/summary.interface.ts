@@ -1,3 +1,6 @@
+/**
+ * Interface for saved library summaries.
+ */
 export interface ISummary {
   id: string;
   highlightedText: string;

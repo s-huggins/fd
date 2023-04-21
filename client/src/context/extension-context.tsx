@@ -33,12 +33,14 @@ export const ExtensionContextProvider: React.FC = ({ children }) => {
   const [extensionTheme, setExtensionTheme] = useState<AppThemeEnum>(DEFAULT_EXTENSION_CONTEXT.theme);
   const [extensionEnabled, setExtensionEnabled] = useState<boolean>(DEFAULT_EXTENSION_CONTEXT.extensionEnabled);
 
+  // listen to commands from background.ts to toggle the theme
   useMessenger<ToggleThemeCommand>((message: ToggleThemeCommand) => {
     setExtensionTheme(message.newTheme);
   }, ToggleThemeCommand.isToggleThemeCommand);
 
   const { sendMessage: sendToggleThemeMessage } = useMessenger<ToggleThemeCommand>();
 
+  // Hydrate the persisted extension state from Chrome storage
   const hydrateFromStorage = async () => {
     const extensionEnabled: boolean = await ExtensionStorage.get(EXTENSION_ENABLED_KEY);
     const extensionTheme: AppThemeEnum = await ExtensionStorage.get(EXTENSION_THEME_KEY);

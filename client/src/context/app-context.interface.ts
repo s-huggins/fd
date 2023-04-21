@@ -2,6 +2,8 @@ import { CreatedAtSortOrder, RequestSummaryQuery } from '../gql/graphql';
 import { ISummary } from './summary.interface';
 
 type ILoadedSummary = Omit<RequestSummaryQuery['summary'], '__typename'>;
+
+// state for the summary shown in the tooltip
 export interface ITooltipLoadedSummary {
   summary: ILoadedSummary;
   saved: boolean;
@@ -28,6 +30,7 @@ export interface ILibraryContext {
 }
 
 export interface IAppContext {
+  // shows/hides loading bar
   actionInFlight: boolean;
   setActionInFlight: (inFlight: boolean) => void;
   tooltipOpen: boolean;

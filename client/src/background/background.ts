@@ -10,19 +10,24 @@ import { EXTENSION_ENABLED_KEY, EXTENSION_THEME_KEY } from '../storage/keys';
 import { FRONTDOOR_CONTEXT_MENU_ITEM_ID } from './context-menu';
 
 chrome.runtime.onInstalled.addListener(async () => {
-  await ExtensionStorage.set(EXTENSION_ENABLED_KEY, false);
-  await ExtensionStorage.set(EXTENSION_THEME_KEY, AppThemeEnum.Dark);
+  // Set default config on installation
+  await ExtensionStorage.setIfNotExists(EXTENSION_ENABLED_KEY, false);
+  await ExtensionStorage.setIfNotExists(EXTENSION_THEME_KEY, AppThemeEnum.Dark);
 });
 
+// Frontdoor context menu item click handler
 chrome.contextMenus.onClicked.addListener(async event => {
   if (event.menuItemId === FRONTDOOR_CONTEXT_MENU_ITEM_ID) {
+    // query for the active tab
     const [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    // if user has highlighted text, send command to contentScript to display the tooltip
     if (activeTab && event.selectionText) {
       chrome.tabs.sendMessage(activeTab.id, new OpenTooltipCommand(event.selectionText));
     }
   }
 });
 
+// Handlers for commands originating in the extension
 chrome.runtime.onMessage.addListener(async (message: Message) => {
   if (ToggleExtensionCommand.isToggleExtensionCommand(message)) {
     toggleExtensionHandler(message.newExtensionActiveState);
