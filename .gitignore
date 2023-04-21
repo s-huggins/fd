@@ -7,5 +7,3 @@ dist/
 
 # misc
 .DS_Store
-
-.env

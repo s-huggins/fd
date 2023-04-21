@@ -30,15 +30,15 @@ export class OpenAIService {
     try {
       const request: CreateChatCompletionRequest = this.makeChatRequest(summaryRequest.text);
       const response = await this._api.createChatCompletion(request);
-      const responseOk: boolean = response.status.toString().startsWith('2');
-      if (!responseOk) {
-        throw new Error('Not OK');
-      }
       const summary: OpenAISummary = this.extractSummary(response.data);
       return summary;
     } catch (err) {
-      console.error(err);
-      throw new Error('Failed to get AI summary');
+      let errorMessage: string = 'Failed to get AI summary';
+      const statusMessage: string = err?.response?.statusText;
+      if (statusMessage) {
+        errorMessage += `: ${statusMessage}`;
+      }
+      throw new Error(errorMessage);
     }
   }
 

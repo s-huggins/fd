@@ -1,4 +1,7 @@
-node_modules/
 Dockerfile
 Dockerfile.dev
+node_modules/
+dist/
+.dockerignore
 **/*.spec.ts
+*.log

@@ -4,6 +4,7 @@ const HtmlPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const tailwindcss = require('tailwindcss');
 const TerserPlugin = require('terser-webpack-plugin');
+const DotenvWebpackPlugin = require('dotenv-webpack');
 
 module.exports = {
   entry: {
@@ -32,6 +33,7 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js']
   },
   plugins: [
+    new DotenvWebpackPlugin(),
     new CleanWebpackPlugin({
       cleanStaleWebpackAssets: false
     }),

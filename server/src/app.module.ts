@@ -19,7 +19,7 @@ import { OpenAIModule } from './openai/openai.module';
         'graphql-ws': true
       }
     }),
-    MongooseModule.forRoot(process.env.MONGODB_URL),
+    MongooseModule.forRoot(process.env.MONGODB_URI),
     LibraryModule,
     CommonModule,
     OpenAIModule
