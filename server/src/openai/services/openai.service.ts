@@ -26,6 +26,11 @@ export class OpenAIService {
     this._api = new OpenAIApi(configuration);
   }
 
+  /**
+   * Contacts the OpenAI API to resolve a summary with keyword tags for a given query.
+   * @param summaryRequest
+   * @returns
+   */
   public async getSummary(summaryRequest: RequestSummaryInput): Promise<OpenAISummary> {
     try {
       const request: CreateChatCompletionRequest = this.makeChatRequest(summaryRequest.text);
@@ -42,6 +47,11 @@ export class OpenAIService {
     }
   }
 
+  /**
+   * Extracts the expected JSON formatted summary data from the OpenAI API response.
+   * @param response
+   * @returns
+   */
   private extractSummary(response: CreateChatCompletionResponse): OpenAISummary {
     const aiChatResponse: CreateChatCompletionResponseChoicesInner = response.choices.find(
       (choice: CreateChatCompletionResponseChoicesInner) =>
@@ -63,7 +73,12 @@ export class OpenAIService {
     };
   }
 
-  private prepareRequestContent(content: string) {
+  /**
+   * Builds a question prompt for OpenAI.
+   * @param content Highlighted text for which to query the API for a summary.
+   * @returns
+   */
+  private prepareRequestContent(content: string): string {
     const requestContent: string = `
       Given the following text: '${content}', generate a summary with further details, and also create a number of related keywords called tags.
       Your response should be strict JSON exactly matching the format: '{ \"summary\": \"summary text\", \"tags\": [\"tag1\", \"tag2\"] }.

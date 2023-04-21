@@ -3,6 +3,9 @@ import { Command, CommandRunner, Option } from 'nest-commander';
 import { SaveSummaryInput } from '../dtos/save-summary.dto';
 import { LibraryService } from '../services/library.service';
 
+/**
+ * Nest Commander command to seed the summaries collection with a given number of random documents.
+ */
 @Command({
   name: 'summaries:seed',
   description: 'Seeds the database with a desired number of random summaries',

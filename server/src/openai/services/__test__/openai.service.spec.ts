@@ -97,7 +97,7 @@ const assertOutput = (output: OpenAISummary) => {
   expect(output.content).toBeTruthy();
 
   // correct array type (although possibly empty)
-  // every element is valid
+  // every element is of correct type
   expect(Array.isArray(output.tags)).toBe(true);
   output.tags.forEach((tag: string) => {
     expect(typeof tag).toBe('string');

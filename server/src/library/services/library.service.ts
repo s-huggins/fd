@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
+import { SortOrderEnum } from 'src/common/enums/sort-order.enum';
 import { DeleteSummaryInput } from '../dtos/delete-summary-input.dto';
 import { SaveSummaryInput } from '../dtos/save-summary.dto';
-import { SortOrderEnum, SummaryQueryInput } from '../dtos/summary-query-input.dto';
+import { SummaryQueryInput } from '../dtos/summary-query-input.dto';
 import { SummaryQueryOutput } from '../dtos/summary-query-output.dto';
 import { Summary } from '../models/summary';
 
@@ -21,11 +22,17 @@ export class LibraryService {
     return this._summaryModel.insertMany(documents);
   }
 
+  /**
+   * Gets a page of summaries ordered & filtered according to query input.
+   * @param summaryQueryInput
+   * @returns
+   */
   public async getSummaries(summaryQueryInput: SummaryQueryInput): Promise<SummaryQueryOutput> {
     const sanitizedInput: SummaryQueryInput = this.sanitizeQuery(summaryQueryInput);
 
     let query = this._summaryModel.find();
 
+    // filter for summaries tagged with all the tags in the query, case-insensitively
     const caseInsensitiveFilter: RegExp[] = summaryQueryInput.tagFilters.map(
       (tagFilter: string) => new RegExp(`^${tagFilter}$`, 'i')
     );
@@ -35,8 +42,10 @@ export class LibraryService {
       });
     }
 
+    // count the total documents found meeting the filter for pagination purposes
     const countQuery = this._summaryModel.find().merge(query).count();
 
+    // sort and paginate according to input
     query = query
       .sort({
         createdAt: sanitizedInput.createdAtSortOrder
@@ -67,6 +76,11 @@ export class LibraryService {
     return true;
   }
 
+  /**
+   * Sanitize and populate with defaults any missing query fields.
+   * @param summaryQuery
+   * @returns
+   */
   private sanitizeQuery(summaryQuery: SummaryQueryInput): SummaryQueryInput {
     const sanitized: SummaryQueryInput = { ...summaryQuery };
     sanitized.createdAtSortOrder ??= SortOrderEnum.NewestFirst;

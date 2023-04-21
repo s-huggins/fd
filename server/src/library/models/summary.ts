@@ -2,6 +2,9 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { IDocumentBase } from '../../common/interfaces/document-base.interface';
 
+/**
+ * Mongoose schema for Summary document.
+ */
 @Schema({
   timestamps: true,
   toJSON: { virtuals: true }

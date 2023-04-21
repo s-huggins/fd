@@ -5,7 +5,7 @@ export class AppController {
   constructor() {}
 
   @Get('/')
-  getHealth(): boolean {
-    return true;
+  getHealth(): string {
+    return 'up';
   }
 }

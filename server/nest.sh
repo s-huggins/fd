@@ -1,5 +1,5 @@
 #!/bin/bash
-# Execute Nest commands inside of the running container
+# Execute nest-commander commands inside of the running server container
 # Usage: ./nest.sh <npm-script> [...script-args]
 # e.g. ./nest.sh `summaries:seed` --count=25
 

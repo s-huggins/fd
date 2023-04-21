@@ -3,15 +3,15 @@ import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { Collection, Connection, Model, connect } from 'mongoose';
-import { AppController } from 'src/app.controller';
-import { SortOrderEnum, SummaryQueryInput } from 'src/library/dtos/summary-query-input.dto';
+import { SortOrderEnum } from 'src/common/enums/sort-order.enum';
+import { SummaryQueryInput } from 'src/library/dtos/summary-query-input.dto';
 import { SummaryDto } from 'src/library/dtos/summary.dto';
 import { Summary, SummarySchema } from 'src/library/models/summary';
 import { LibraryService } from 'src/library/services/library.service';
 import { LibraryResolver } from '../library.resolver';
 import { testSummaries } from './test-data';
 
-describe('AppController (e2e)', () => {
+describe('LibraryResolver', () => {
   let app: INestApplication;
   let mongod: MongoMemoryServer;
   let mongoConnection: Connection;
@@ -19,13 +19,13 @@ describe('AppController (e2e)', () => {
   let libraryResolver: LibraryResolver;
 
   beforeAll(async () => {
+    // spin up an in-memory mongo server to mock db
     mongod = await MongoMemoryServer.create();
     mongoConnection = (await connect(mongod.getUri())).connection;
 
     summaryModel = mongoConnection.model(Summary.name, SummarySchema);
 
     const testModule: TestingModule = await Test.createTestingModule({
-      controllers: [AppController],
       providers: [LibraryResolver, LibraryService, { provide: getModelToken(Summary.name), useValue: summaryModel }]
     }).compile();
 
@@ -35,10 +35,12 @@ describe('AppController (e2e)', () => {
   });
 
   beforeEach(async () => {
+    // seed the test data
     await summaryModel.insertMany(testSummaries);
   });
 
   afterEach(async () => {
+    // clear the collection
     const collections: Record<string, Collection> = mongoConnection.collections;
     for (const key in collections) {
       const collection: Collection = collections[key];
