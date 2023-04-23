@@ -42,5 +42,5 @@ Unresolved issue: Propagating updated extension state to all open tabs from the 
 * Undo/Redo of deletion in the library would be helpful.  
 * Perhaps tuning the OpenAI integration with prompts could yield improved responses.
 * The optional stretch goals all sounded very good.  
-* More component testing is always good if time allows. Library pagination in particular should be tested.  
-* E2E testing on the front-end. Possibly could use Cypress for this. I tried to use msw to mock API integration but couldn't get it set up for Chrome extension development and was unsuccessful in troubleshooting.
+* More component testing is always valuable if time allows. Library pagination in particular should be tested.  
+* E2E testing on the front-end. Could use Cypress for this. I attempted to use msw to mock the API integration but couldn't get it set up for Chrome extension development and was unsuccessful in troubleshooting.
