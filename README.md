@@ -14,7 +14,7 @@ You will need Docker available on your machine to run the server.
 ### Approach
 The backend was built first by visualizing the UI and inferring the API endpoints that would be needed.
 Main components were built and connected with the API in a POC phase to display plain data and test the user journey.
-Styling was done towards the end once all the main components had stabilized, as to limit any wasted effort of styling components that get thrown away.
+Styling was done towards the end once all the main components had stabilized, so as to limit any wasted effort of styling components which could get thrown away.
 Candidate components for reusability were genericized & extracted into common folders.
 
 
