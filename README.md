@@ -37,6 +37,7 @@ Unresolved issue: Propagating updated extension state to all open tabs from the 
 
 
 ### Areas for improvement
+* Style encapsulation is needed to prevent leakage of styles into the webpage (perhaps hashed class names as a build step or use the shadow DOM)
 * State management is growing in complexity and is nearing the point where a reducer pattern would be worth following.
 * Some UI actions (for instance saving a summary) could do with improved visual feedback that the action was successful.  
 * Undo/Redo of deletion in the library would be helpful.  
