@@ -37,6 +37,7 @@ Unresolved issue: Propagating updated extension state to all open tabs from the 
 
 
 ### Areas for improvement
+* State management is growing in complexity and is nearing the point where a reducer pattern would be worth following.
 * Some UI actions (for instance saving a summary) could do with improved visual feedback that the action was successful.  
 * Undo/Redo of deletion in the library would be helpful.  
 * Perhaps tuning the OpenAI integration with prompts could yield improved responses.
