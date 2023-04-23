@@ -36,6 +36,6 @@ Resolved by creating a messaging system that wraps the Chrome messaging api, and
 Unresolved issue: Propagating updated extension state to all open tabs from the background service worker - e.g. if I toggle the theme in one tab, all other tabs should now use that new theme in their content scripts. Currently unimplemented as the Chrome messaging API was producing errors.
 
 ### Areas for improvement
-Some UI actions (for instance saving a summary) could do with improved visual feedback that the action was successful
-Undo/Redo of deletion in the library would be helpful
-The optional stretch goals all sound very good
+Some UI actions (for instance saving a summary) could do with improved visual feedback that the action was successful.  
+Undo/Redo of deletion in the library would be helpful.  
+The optional stretch goals all sounded very good.  
