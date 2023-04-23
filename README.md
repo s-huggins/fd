@@ -33,7 +33,7 @@ I considered writing the logic for this myself by determining the cursor positio
 
 #### Sharing extension state between the popup and background service worker
 Resolved by creating a messaging system that wraps the Chrome messaging api, and which is injectable into components with hooks.
-Unresolved issue: Propagating updated extension state to all open tabs from the background service worker - e.g. if I toggle the theme, all open tabs should now use that new theme in their content scripts. Currently unimplemented as I ran into errors.
+Unresolved issue: Propagating updated extension state to all open tabs from the background service worker - e.g. if I toggle the theme in one tab, all other tabs should now use that new theme in their content scripts. Currently unimplemented as the Chrome messaging API was producing errors.
 
 ### Areas for improvement
 Some UI actions (for instance saving a summary) could do with improved visual feedback that the action was successful
