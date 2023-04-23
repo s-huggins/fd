@@ -23,15 +23,15 @@ Candidate components for reusability were genericized & extracted into common fo
 #### Standing out!
 There's always candidates much more experienced than myself applying for roles.
 
-#### Creating a Chrome extension for the first time.
+#### Creating a Chrome extension for the first time
 Before starting I made sure to research the fundamentals by watching some tutorials and surveying Google's documentation and any quality blog posts.
 
 
-#### Positioning the tooltip.
+#### Positioning the tooltip
 I considered writing the logic for this myself by determining the cursor position and running some basic geometrical calcuations to choose the optimal placement, but given all the inevitable edge cases I thought it would be better to look for a library that has already accomplished this - I discovered Floating UI, a newer rewrite of Popper, and hammered an existing example into a reusable component I could employ.
 
 
-#### Sharing extension state between the popup and background service worker.
+#### Sharing extension state between the popup and background service worker
 Resolved by creating a messaging system that wraps the Chrome messaging api, and which is injectable into components with hooks.
 Unresolved issue: Propagating updated extension state to all open tabs from the background service worker - e.g. if I toggle the theme, all open tabs should now use that new theme in their content scripts. Currently unimplemented as I ran into errors.
 
