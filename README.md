@@ -21,7 +21,7 @@ Candidate components for reusability were genericized & extracted into common fo
 ### Challenges
 
 #### Standing out!
-There's always so many people much more experience than myself applying for roles like this.
+There's always candidates much more experienced than myself applying for roles.
 
 #### Creating a Chrome extension for the first time.
 Before starting I made sure to research the fundamentals by watching some tutorials and surveying Google's documentation and any quality blog posts.
