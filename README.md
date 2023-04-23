@@ -37,9 +37,9 @@ Unresolved issue: Propagating updated extension state to all open tabs from the 
 
 
 ### Areas for improvement
-Some UI actions (for instance saving a summary) could do with improved visual feedback that the action was successful.  
-Undo/Redo of deletion in the library would be helpful.  
-Perhaps tuning the OpenAI integration with prompts could yield improved responses.
-The optional stretch goals all sounded very good.  
-More component tests are always good if time allows. Pagination in particular should be tested.  
-E2E testing on the front-end. Possibly could use Cypress for this. I tried to use msw to mock API integration but couldn't get it set up for Chrome extension development and was unsuccessful in troubleshooting.
+* Some UI actions (for instance saving a summary) could do with improved visual feedback that the action was successful.  
+* Undo/Redo of deletion in the library would be helpful.  
+* Perhaps tuning the OpenAI integration with prompts could yield improved responses.
+* The optional stretch goals all sounded very good.  
+* More component testing is always good if time allows. Library pagination in particular should be tested.  
+* E2E testing on the front-end. Possibly could use Cypress for this. I tried to use msw to mock API integration but couldn't get it set up for Chrome extension development and was unsuccessful in troubleshooting.
