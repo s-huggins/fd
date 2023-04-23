@@ -24,7 +24,7 @@ Candidate components for reusability were genericized & extracted into common fo
 There's always candidates much more experienced than myself applying for roles.
 
 #### Creating a Chrome extension for the first time
-Before starting I made sure to research the fundamentals by watching some tutorials and surveying Google's documentation and any quality blog posts.
+Before starting I made sure to research the fundamentals by watching some tutorials and surveying Google's documentation as well as any quality blog posts.
 
 
 #### Positioning the tooltip
