@@ -1,5 +1,7 @@
 # Frontdoor Chrome Extension
 
+[Demo video](https://www.youtube.com/watch?v=Cxni4qf0F4w)
+
 ## Setup
 
 You will need Docker available on your machine to run the server.
